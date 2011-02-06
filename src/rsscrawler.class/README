@@ -1,0 +1,131 @@
+【类摘要】
+RSSCrawler {
+   
+    /* 方法 */
+    bool open ( string $url )
+    bool valid ( void )
+    bool close ( void )
+    array read_item ( void )
+    int get_item_num( void )
+    array get_rss_attributes( void )
+    
+}
+
+【方法】
+bool open ( string $url )：
+打开 $url 指定的XML文档，方法内部对其初始化。
+打开成功返回TRUE，失败返回FALSE。
+
+bool valid ( void )：
+检查 open() 方法所打开的XML文档是否符合RSS Feed格式。
+若符合，返回TRUE，否则返回FALSE。
+
+bool close ( void )：
+关闭 open() 方法打开的XML文档。
+关闭成功返回TRUE，失败返回FALSE。
+
+array read_item ( void )：
+依据初始化结果，返回一个RSS Feed 中的item 元素的内容。同时指针向下一个item 元素移动。
+该内容已被格式化为一个关联数组。若未找到item 元素或未正常初始化，则返回NULL。
+
+int get_item_num( void )：
+如果正确初始化了一个RSS Feed，该方法返回检索到的item 条数。否则返回0。
+
+array get_rss_attributes( void )：
+如果正确初始化了一个RSS Feed，返回一个记录rss 元素的属性的关联数组。否则返回NULL。
+
+【关联数组格式样例】
+查看RSS Feed文档时发现，多数文档中同一channel元素内含有多个item元素，同一个item内含有多个category。（后来发现有些文档的atom:link元素也存在多个，Orz，无法理解，忽略）所以在格式化函数中对其进行特殊处理——加入编号。在存入数据库前需要再次格式化。
+
+Array(
+    [rss] => Array(
+        [attr] => Array(
+            [version] => string
+            [xmlns:content] => string
+            ...
+        )
+        [channel] => Array(
+            [title] => Array( [value] => string )
+            [atom:link] => Array( 
+                [attr] => Array(
+                    [href] => string
+                    [rel] => string
+                    [type] => string
+                )
+            )
+            [description] => Array( [value]=> string )
+            ...
+            [item] => Array(
+                [item-0] => Array(
+                    [title] => Array( [value] => string )
+                    [link] => Array( [value] => string )
+                    ...
+                    [category] => Array(
+                        [category-0] => Array( [value] => string )
+                        [category-1] => Array( [value] => string )
+                        [category-2] => Array( [value] => string )
+                        ...
+                    )
+                    [guid] => Array(
+                        [attr] => Array(
+                            [isPermaLink] => string
+                        )
+                        [value] => string
+                    )
+                    [description] => Array( [value] => string )
+                    [content:encoded] => Array( [value] => string )
+                    ...
+                )
+                [item-1] => Array(
+                    ...
+                )
+                [item-2] => Array(
+                    ...
+                )
+                ...
+            )
+        )
+    )
+)
+
+【测试代码示例】
+test.php
+
+<?php
+
+include 'rsscrawler.class.php';
+
+$rss = new RSSCrawler();
+
+//$url = 'http://feed.feedsky.com/7lemon';
+//$url = 'http://feeds.feedburner.com/7lemon';
+$url = 'http://www.7lemon.net/feed';
+
+if($rss->open($url))
+    printf("<h2>Open URL successfully.</h2>");
+else
+{
+    printf("<h2>Error: Could not open %s</h2>", $url);
+    exit;
+}
+
+if($rss->valid())
+    printf("<h2>This is a RSS feed.</h2>");
+else
+{
+    printf("<h2>This is not RSS feed.</h2>");
+    exit;
+}
+
+while ($row = $rss->read_item())
+{
+    print '<h3>'.$row['title']['value'].'</h3>';
+    print '<div>'.$row['content:encoded']['value'].'</div>';
+}
+
+if($rss->close())
+    echo '<h2>RSS closed.</h2>';
+else
+    echo '<h2>Error while closing RSS.</h2>'
+
+?>
