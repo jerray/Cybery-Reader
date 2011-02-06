@@ -8,31 +8,37 @@ RSSCrawler {
     array read_item ( void )
     int get_item_num( void )
     array get_rss_attributes( void )
+    array get_channel( void )
     
 }
 
 【方法】
 bool open ( string $url )：
-打开 $url 指定的XML文档，方法内部对其初始化。
+打开 $url 指定的XML文档。
 打开成功返回TRUE，失败返回FALSE。
 
 bool valid ( void )：
 检查 open() 方法所打开的XML文档是否符合RSS Feed格式。
-若符合，返回TRUE，否则返回FALSE。
+若符合返回TRUE，否则返回FALSE。
 
 bool close ( void )：
 关闭 open() 方法打开的XML文档。
 关闭成功返回TRUE，失败返回FALSE。
 
+--以下方法需在检查格式（调用valid()方法）之后才能正常调用。
+
 array read_item ( void )：
-依据初始化结果，返回一个RSS Feed 中的item 元素的内容。同时指针向下一个item 元素移动。
+返回一个RSS Feed 中的item 元素的内容。同时指针向下一个item 元素移动。
 该内容已被格式化为一个关联数组。若未找到item 元素或未正常初始化，则返回NULL。
 
 int get_item_num( void )：
-如果正确初始化了一个RSS Feed，该方法返回检索到的item 条数。否则返回0。
+该方法返回检索到的item 条数。否则返回0。
 
 array get_rss_attributes( void )：
-如果正确初始化了一个RSS Feed，返回一个记录rss 元素的属性的关联数组。否则返回NULL。
+返回一个记录rss 元素的属性的关联数组。否则返回NULL。
+
+array get_channel( void )：
+返回一个记录channel元素中包含的信息的关联数组。（除去item元素）
 
 【关联数组格式样例】
 查看RSS Feed文档时发现，多数文档中同一channel元素内含有多个item元素，同一个item内含有多个category。（后来发现有些文档的atom:link元素也存在多个，Orz，无法理解，忽略）所以在格式化函数中对其进行特殊处理——加入编号。在存入数据库前需要再次格式化。
