@@ -1,34 +1,53 @@
-*{
+﻿*{
 	margin: 0;
 	padding: 0;
-}
-#header{
-	clear:both;
-	height: 51px;
-	background-image:url(images/header.jpg);
-	background-repeat:repeat-x
 }
 h1{
         font-family:Times New Roman;
 	color:#FFFFFF
 }
+img{
+        float:left	
+}
+li{
+	margin-left: 15px;
+	list-style-type:none;
+}
+li.choose{
+	margin-left: 30px;
+}
+#header{
+	clear:both;
+	height: 51px;
+	background-image:url(images/header.jpg);
+	background-repeat:repeat-x;
+}
+img.logo{
+        height: 85%
+}
+img.logonote{
+        margin-top: 21px
+}
 #message{
 	clear:both;
-	background-image:url(images/back.jpg);
+        background-image:url(images/back.jpg);
 	background-repeat:repeat;
-	height: 51px;
-	border-bottom-color:black;
-	border-style:solid
+	height: 46px;
+	border-color:gray;
+	border-style:solid;
+	border-width:thin;
 }
 #leftsidebar{
 	border-color:black;
 	background-image:url(images/back.jpg);
 	background-repeat:repeat;
 	width: 300px;
-	height:900px;
+	height: 1100px;
 	float:left;
-	border-bottom-color:black;
-	border-style:solid
+	border-color:gray;
+	border-style:solid;
+	border-width:thin;
+	border-top-style:none
 }
 #main{
 	margin: 0;
@@ -41,21 +60,49 @@ h1{
 	background-image:url(images/back.jpg);
 	background-repeat:repeat;
 	width: 250px;
-	height:900px;
+	height: 1100px;
 	float:right;
-	border-bottom-color:black;
-	border-style:solid
+	border-color:gray;
+	border-style:solid;
+	border-width:thin;
+	border-top-style:none
 }
 #footer{
 	clear: both;
 	margin: 0;
 	padding: 0;
 	height: 30px;
-	background: #B6B6B6
+	background: #B6B6B6;
+	text-align:center
 }
 a:hover{
-	background-color:#ff3300
+	color:blue
 }
-
-
-
+.flip
+{
+	border:solid 1px #c3c3c3;
+}
+#panel
+{
+	height: 100%;
+}
+li.choose:hover{
+	background-color:white;
+	border-top-color:gray;
+	border-top-style:solid;
+	border-top-width:thin;
+	border-bottom-color:gray;
+	border-bottom-style:solid;
+	border-bottom-width:thin;
+}
+img.star{
+        margin-top: 3px;
+        margin-left: 2px;
+	margin-right: 2px;
+}
+p.rightitle{
+	margin: 10px;
+}
+li.rightext{
+	margin-left: 10px;
+}
