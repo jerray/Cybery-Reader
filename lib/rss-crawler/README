@@ -9,7 +9,8 @@ RSSCrawler {
     int get_item_num( void )
     array get_rss_attributes( void )
     array get_channel( void )
-    
+    void reset_read_cursor()
+    bool set_read_cursor( int $num )
 }
 
 【方法】
@@ -39,6 +40,15 @@ array get_rss_attributes( void )：
 
 array get_channel( void )：
 返回一个记录channel元素中包含的信息的关联数组。（除去item元素）
+
+--2.8 加入以下方法以允许定位读取item
+
+void reset_read_cursor()：
+重置read_item()方法的指针。
+
+bool set_read_cursor( int $num )：
+设定read_item()方法的指针位置。即读取item的下标（从1起）。需要$num 大于0 且小于等于 get_item_num()的返回值。
+设置成功则返回TRUE，失败则返回FALSE。
 
 【关联数组格式样例】
 查看RSS Feed文档时发现，多数文档中同一channel元素内含有多个item元素，同一个item内含有多个category。（后来发现有些文档的atom:link元素也存在多个，Orz，无法理解，忽略）所以在格式化函数中对其进行特殊处理——加入编号。在存入数据库前需要再次格式化。

@@ -6,12 +6,8 @@ class RSSCrawler
     private $rss_xml;
     private $url = NULL;
     private $isrss = FALSE;
-    private $hasrss = FALSE;
-    private $isinit = FALSE;
-    private $isitem = FALSE;
 
-    private $item;
-    private $item_num;
+    private $item_num = 0;
     private $item_cursor;
     
     private function fetch_to_assoc($rss)
@@ -48,27 +44,19 @@ class RSSCrawler
         }
         return $result;
     }
-    
-    private function store_xml()
-    {
-        $this->rss_xml = $this->fetch_to_assoc($this->reader);
-    }
 
     private function init()
     {
-        $this->store_xml();
+        $this->rss_xml = $this->fetch_to_assoc($this->reader);
 
         if (isset($this->rss_xml['rss']) && isset($this->rss_xml['rss']['channel']))
-            $this->hasrss = TRUE;
+            $this->isrss = TRUE;
 
         if (isset($this->rss_xml['rss']['channel']['item']))
         {
-            $this->isitem = TRUE;
-            $this->item = $this->rss_xml['rss']['channel']['item'];
-            $this->item_num = count($this->item);
+            $this->item_num = count($this->rss_xml['rss']['channel']['item']);
             $this->item_cursor = 0;
         }
-        $this->isinit = TRUE;
     }
 
     public function open($url)
@@ -84,22 +72,23 @@ class RSSCrawler
 
     public function read_item()
     {
-        if (!$this->isitem || $this->item_cursor >= $this->item_num)
+        if (!$this->item_num || $this->item_cursor >= $this->item_num)
             return NULL;
 
-        return $this->item['item-'.$this->item_cursor++];
+        return $this->rss_xml['rss']['channel']['item']['item-'.$this->item_cursor++];
     }
 
     public function valid()
     {
+        if ($this->isrss)
+            return TRUE;
+            
         $xml = new XMLReader();
         $xml->open($this->url);
         $xml->setParserProperty(XMLReader::VALIDATE, TRUE);
         if ($xml->isValid())
         {
             $this->init();
-            if ($this->hasrss)
-                $this->isrss = TRUE;
         }
         $xml->close();
         return $this->isrss;
@@ -115,9 +104,7 @@ class RSSCrawler
 
     public function get_item_num()
     {
-        if ($this->isitem)
-            return $this->item_num;
-        return 0;
+        return $this->item_num;
     }
 
     public function get_rss_attributes()
@@ -136,6 +123,19 @@ class RSSCrawler
             unset($channel['item']);
         }
         return $channel;
+    }
+    
+    public function reset_read_cursor()
+    {
+        $this->item_cursor = 0;
+    }
+    
+    public function set_read_cursor($num)
+    {
+        if (!is_int($num) || $num > $this->item_num || $num <= 0)
+            return FALSE;
+        $this->item_cursor = $num - 1;
+        return TRUE;
     }
 
 }
