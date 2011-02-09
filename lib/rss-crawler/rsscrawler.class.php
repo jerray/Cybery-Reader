@@ -2,12 +2,12 @@
 
 class RSSCrawler
 {
-    private $reader;
-    private $rss_xml;
+    private $reader = NULL;
+    private $rss_xml = NULL;
     private $url = NULL;
     private $isrss = FALSE;
 
-    private $item_num = 0;
+    private $item_num;
     private $item_cursor;
     
     private function fetch_to_assoc($rss)
@@ -61,6 +61,9 @@ class RSSCrawler
 
     public function open($url)
     {
+        if ($this->url)
+            return FALSE;
+
         $this->reader = new XMLReader();
         if ($this->reader->open($url))
         {
@@ -97,8 +100,17 @@ class RSSCrawler
     public function close()
     {
         if ($this->url)
+        {
             if($this->reader->close())
+            {
+                $this->url = NULL;
+                $this->rss_xml = NULL;
+                $this->reader = NULL;
+                $this->isrss = FALSE;
+                $this->item_cursor = 0;
                 return TRUE;
+            }
+        }
         return FALSE;
     }
 
