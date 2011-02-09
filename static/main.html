@@ -23,6 +23,13 @@
                                         $("img.hotfeed").attr("src","images/butplus.gif");
 					$("ul.hotfeed").slideToggle("slow");
 				});
+				$("p.remind").click(function(){
+					$("#messagetext").slideToggle("slow");
+				});
+				$("img.delete").click(function(){
+					$("#message").hide();
+					$("#messagetext").hide();
+				});
 			});
 		</script>
 	</head>
@@ -33,29 +40,35 @@
 	</div>
 
 	<div id="message">
-		<p><img src="images/butplus.gif" class="remind" /> 这里是提示信息。</p>
+		<img src="images/butexit.gif" class="delete" /><p class="remind">这里是提示信息。</p>
 	</div>
+
+	<div id="messagetext">
+		<p>这里是提示信息。</p>
+	</div>
+
+	<div id="context">
 
 	<div id="leftsidebar">
 	<ul>
 		<li><img src="images/butsub.gif" class="myfeed" />我的Feed
 	       	<ul class="myfeed">
-	            <li class="choose">非常日报(32)</li>
-		    <li class="choose">河蟹娱乐(64)</li>
-		    <li class="choose">地理时间(128)</li>
-		    <li class="choose">外刊IT评论(4)</li>
-		    <li class="choose">我们爱讲冷笑话(16)</li>
-		    <li class="choose">煎蛋(8)</li>
+			<li class="choose"><a href="">非常日报(32)</a></li>
+		    <li class="choose"><a href="">河蟹娱乐(64)</a></li>
+		    <li class="choose"><a href="">地理时间(128)</a></li>
+		    <li class="choose"><a href="">外刊IT评论(4)</a></li>
+		    <li class="choose"><a href="">我们爱讲冷笑话(16)</a></li>
+		    <li class="choose"><a href="">煎蛋(8)</a></li>
          	</ul>
 		</li> 
 
 		<li><img src="images/butsub.gif" class="hotfeed" />热门Feed
 		<ul class="hotfeed">
-		    <li class="choose">非常日报(32)</li>
-		    <li class="choose">河蟹娱乐(64)</li>
-		    <li class="choose">地理时间(128)</li>
-		    <li class="choose">我们爱讲冷笑话(16)</li>
-		    <li class="choose">煎蛋(8)</li>
+		    <li class="choose"><a href="">非常日报(32)</a></li>
+		    <li class="choose"><a href="">河蟹娱乐(64)</a></li>
+		    <li class="choose"><a href="">地理时间(128)</a></li>
+		    <li class="choose"><a href="">我们爱讲冷笑话(16)</a></li>
+		    <li class="choose"><a href="">煎蛋(8)</a></li>
          	</ul>
 		</li>
 	</ul>
@@ -106,7 +119,8 @@
 	<h3 class="flip"><img src="images/starblank.png" class="star" />一个关于两个国家互派间谍的问题</p>
         </div>
         </div>	
-
+        </div>
+	
        <div id="footer">
 		Copyright &copy; 2010 
 	</div>
