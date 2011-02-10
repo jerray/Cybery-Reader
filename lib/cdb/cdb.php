@@ -106,6 +106,21 @@ class CDB{
 
 	//具有可变参数个数的函数，类似于sprintf，fsql定义了据格式，v1, v2等变量定义了要替换的值，然后将替换后的字符串作为数据库查询进行执行
 	function queryf(){
+		$pa = func_get_args();
+
+		$data = $pa[0] array();			///$pa[0]  格式......???????
+		for($i = 1; $i < func_num_args(); $i++)
+		{
+			$data[$i - 1] = $pa[$i];
+		}
+		foreach($data as $key=>$val)
+	       	{
+			if(strtolower($val)=='null') $q.= "`$key` = NULL, ";
+			elseif(strtolower($val)=='now()') $q.= "`$key` = NOW(), ";
+			else $q.= "`$key`='".$this->escape($val)."', ";
+		}
+
+		$q = "SELECT `". rtrim($q, ', ') ."` from ".$this->$table_name."` " . ' WHERE '.$where.';';
 	}
 		
 	//关闭链接
