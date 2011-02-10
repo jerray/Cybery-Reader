@@ -7,6 +7,7 @@ class CDB{
 	var $dbuser = "";	//数据库名
 	var $dbpw = "";		//密码
 	var $dbname = "";	//数据库名
+	var $numRows;		//返回数据数目
 		
 	//打印出错信息
 	function halt($msg){
@@ -55,11 +56,16 @@ class CDB{
 
 	//从数据表table_name中取出一条记录，满足条件：字段名为field_name的字段，其值为value
 	function fetch($table_name, $field_name, $value){
-		$sql = "select $field_name from $stable_name where $field_name";
+		$sql = "select $field_name from $table_name where $field_name";
+		$result = @mysql_query($sql, $this->dblink);
+		return mysql_fetch_object($this->result);
 	}
 		
 	//从数据表table_name中取出所有符合条件condition的记录
 	function get($table_name, $condition){
+		$sql = "select * from $table_name where $condition";
+		$this->result = @mysql_query($sql, $this->dblink);
+		return mysql_fetch_array($this->result);
 	}
 
 	//向数据表table_name中插入一条记录，data是一个关联数组，键名为字段名，值为字段的值
