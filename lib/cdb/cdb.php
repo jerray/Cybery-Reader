@@ -55,6 +55,7 @@ class CDB{
 
 	//从数据表table_name中取出一条记录，满足条件：字段名为field_name的字段，其值为value
 	function fetch($table_name, $field_name, $value){
+		$sql = "select $field_name from $stable_name where $field_name";
 	}
 		
 	//从数据表table_name中取出所有符合条件condition的记录
