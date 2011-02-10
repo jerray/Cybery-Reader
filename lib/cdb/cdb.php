@@ -99,7 +99,7 @@ class CDB{
 			elseif(strtolower($val)=='now()') $q.= "`$key` = NOW(), ";
 			else $q.= "`$key`='".$this->escape($val)."', ";
 		}
-		$q = rtrim($q, ', ') . ' WHERE '.$where.';';
+		$q = rtrim($q, ', ').';';
 	
 		return $this->query($q);
 	}
@@ -120,7 +120,7 @@ class CDB{
 			else $q.= "`$key`='".$this->escape($val)."', ";
 		}
 
-		$q = "SELECT `". rtrim($q, ', ') ."` from ".$this->$table_name."` " . ' WHERE '.$where.';';
+		$q = "SELECT `". rtrim($q, ', ') ."` from ".$this->$table_name."` " .';';
 	}
 		
 	//关闭链接
