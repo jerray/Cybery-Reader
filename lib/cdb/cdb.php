@@ -91,6 +91,17 @@ class CDB{
 
 	//更新数据表table_name中的id为id_value的记录，data是一个关联数组，键名为字段名，值为字段的值
 	function query_update($table_name, $data){
+		$q="UPDATE `".$this->$table_name."` SET ";
+	
+		foreach($data as $key=>$val)
+	       	{
+			if(strtolower($val)=='null') $q.= "`$key` = NULL, ";
+			elseif(strtolower($val)=='now()') $q.= "`$key` = NOW(), ";
+			else $q.= "`$key`='".$this->escape($val)."', ";
+		}
+		$q = rtrim($q, ', ') . ' WHERE '.$where.';';
+	
+		return $this->query($q);
 	}
 
 	//具有可变参数个数的函数，类似于sprintf，fsql定义了据格式，v1, v2等变量定义了要替换的值，然后将替换后的字符串作为数据库查询进行执行
@@ -99,6 +110,7 @@ class CDB{
 		
 	//关闭链接
 	function close(){
+		return mysql_close($this->dblink);
 	}
 }
 ?>
