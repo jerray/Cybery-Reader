@@ -4,6 +4,8 @@ include 'cdb.php';
 
 $db = new CDB();
 
-$db->connect();
+$db->connect('localhost', 'root', 'shoutao', 'wow');
+
+echo "meme";
 
 ?>

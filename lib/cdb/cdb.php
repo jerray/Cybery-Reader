@@ -3,6 +3,10 @@ class CDB{
 	
 	var $querynum = 0;	//当前页面进程查询数据库的次数
 	var $dblink;	//数据库链接资源
+	var $dbhost = "";	//服务器
+	var $dbuser = "";	//数据库名
+	var $dbpw = "";		//密码
+	var $dbname = "";	//数据库名
 		
 	//打印出错信息
 	function halt($msg){
