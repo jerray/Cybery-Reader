@@ -6,6 +6,15 @@ class CDB{
 		
 	//打印出错信息
 	function halt($msg){
+		$message = "<html>\n<head>\n" ; 
+		$message .= "<meta content='text/html;charset=utf-8'>\n" ; 
+		$message .= "</head>\n" ; 
+		$message .= "<body>\n" ; 
+		$message .= "数据库出错：".htmlspecialchars($msg)."\n" ; 
+		$message .= "</body>\n" ; 
+		$message .= "</html>" ; 
+		echo $message ; 
+		exit ; 
 	}
 
 	//链接数据库
