@@ -70,6 +70,23 @@ class CDB{
 
 	//向数据表table_name中插入一条记录，data是一个关联数组，键名为字段名，值为字段的值
 	function insert($table_name, $data){
+		$q="INSERT INTO `".$this->$table_name."` ";
+		$v=''; $n='';
+	
+		foreach($data as $key=>$val)
+	       	{
+			$n.="`$key`, ";
+			if(strtolower($val)=='null') $v.="NULL, ";
+			elseif(strtolower($val)=='now()') $v.="NOW(), ";
+			else $v.= "'".$this->escape($val)."', ";
+		}
+	
+		$q .= "(". rtrim($n, ', ') .") VALUES (". rtrim($v, ', ') .");";
+	
+		if($this->query($q)){
+			return mysql_insert_id();
+		}
+		else return false;
 	}
 
 	//更新数据表table_name中的id为id_value的记录，data是一个关联数组，键名为字段名，值为字段的值
