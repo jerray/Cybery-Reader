@@ -24,16 +24,22 @@
 					$("ul.hotfeed").slideToggle("slow");
 				});
 				$("p.remind").click(function(){
-					$("#messagetext").slideToggle("slow");
+					$("#message").hide();
+					$("#messagetext").show();
 				});
 				$("img.delete").click(function(){
 					$("#message").hide();
 					$("#messagetext").hide();
 				});
+				$("img.star").click(function(){
+					 $("img.star").attr("src","images/starblank.png");
+				});
 			});
 		</script>
 	</head>
+
 	<body>
+
 	<div id="header">
 			<img src="images/logo.png" class="logo" />
 			<img src="images/see.png" class="logonote"/>
@@ -44,7 +50,7 @@
 	</div>
 
 	<div id="messagetext">
-		<p>这里是提示信息。</p>
+		<img src="images/butexit.gif" class="delete" /><p class="message">这里是提示信息。</p>
 	</div>
 
 	<div id="context">
@@ -52,8 +58,8 @@
 	<div id="leftsidebar">
 	<ul>
 		<li><img src="images/butsub.gif" class="myfeed" />我的Feed
-	       	<ul class="myfeed">
-			<li class="choose"><a href="">非常日报(32)</a></li>
+		<ul class="myfeed">
+		    <li class="choose"><a href="">非常日报(32)</a></li>
 		    <li class="choose"><a href="">河蟹娱乐(64)</a></li>
 		    <li class="choose"><a href="">地理时间(128)</a></li>
 		    <li class="choose"><a href="">外刊IT评论(4)</a></li>
@@ -77,20 +83,20 @@
 	<div id="rightsidebar">
 		<p class="rightitle">就像你刚学会编程那样写程序</p>
 		<ul>
-			<li class="rightext"><a href="">The5fire</a> : 说得很对呀，有时候开发人员往往会舍本逐末，把焦点放到程序代码的扩展性上，而不是用户体验</li>
-			<li class="rightext"><a href="">lfsfxy9 </a> : 开发人员应该更加细分一些，职责划分更细一些。哪些只是为实现功能而做的，哪些是考虑界面，系统交互性，可用性的。</li>
+			<li class="rightext"><a href="" class="rightext">The5fire</a> : 说得很对呀，有时候开发人员往往会舍本逐末，把焦点放到程序代码的扩展性上，而不是用户体验</li>
+			<li class="rightext"><a href="" class="rightext">lfsfxy9 </a> : 开发人员应该更加细分一些，职责划分更细一些。哪些只是为实现功能而做的，哪些是考虑界面，系统交互性，可用性的。</li>
 		</ul>
 	</div>
 
 	<div id="main">
-	<h2 class="flip">外刊IT评论</h2>
+	<h2 class="flip"><p>外刊IT评论</p></h2>
 	<div id="panall">
-		<h3 class="flip"><img src="images/starblank.png" class="star" />漫画：如何写出好代码?</h3>
-	<h3 class="flip"><img src="images/starfull.png" class="star" />去创业还是去环游世界?</h3>
-	<h3 class="flip"><img src="images/starblank.png" class="star" />你的架构很烂，但我并不在意</h3>
-	<h3 class="flip"><img src="images/starblank.png" class="star" />史蒂夫·乔布斯很懂团队建设</h3>
-	<h3 class="flip"><img src="images/starblank.png" class="star" />我听到过的最精彩的一个软件纠错故事</h3>
-	<h3 class="flip"><img src="images/starfull.png" class="star" />就像你刚学会编程那样写程序</h3>
+	<img src="images/starblank.png" class="star" /><h3>漫画：如何写出好代码?</h3>
+	<img src="images/starfull.png" class="star" /><h3>去创业还是去环游世界?</h3>
+	<img src="images/starblank.png" class="star" /><h3>你的架构很烂，但我并不在意</h3>
+	<img src="images/starblank.png" class="star" /><h3>史蒂夫·乔布斯很懂团队建设</h3>
+	<img src="images/starblank.png" class="star" /><h3>我听到过的最精彩的一个软件纠错故事</h3>
+	<img src="images/starfull.png" class="star" /><h3 class="flip">就像你刚学会编程那样写程序</h3>
 
 	<div id="panel">
 	<p>就像你刚学会编程那样写程序</p>
@@ -108,21 +114,21 @@
 	<p>我想这唯一的解决办法就是放弃后者。用直接但看起来滑稽的代码，就像是刚学会编程那样，跳出樊笼，摘掉扣在代码上的各种软件工程技术的大帽子 — 除非你想成为真正的软件工程师，而非事关用户体验的设计师。</p>
 	</div>
 
-	<h3 class="flip"><img src="images/starblank.png" class="star" />漫画：你能帮我把这个文件重命名吗?</h3>
-	<h3 class="flip"><img src="images/starblank.png" class="star" />成功不寻常</h3>
-	<h3 class="flip"><img src="images/starblank.png" class="star" />交易</h3>
-	<h3 class="flip"><img src="images/starblank.png" class="star" />"测试是浪费时间，我的程序肯定没问题"</h3>
-	<h3 class="flip"><img src="images/starblank.png" class="star" />愚蠢且能干</h3>
-	<h3 class="flip"><img src="images/starblank.png" class="star" />让能者不多得</h3>
-	<h3 class="flip"><img src="images/starblank.png" class="star" />改良程序的11技巧</h3>
-	<h3 class="flip"><img src="images/starblank.png" class="star" />你不是真的想要100万</h3>
-	<h3 class="flip"><img src="images/starblank.png" class="star" />一个关于两个国家互派间谍的问题</p>
+	<img src="images/starblank.png" class="star" /><h3>漫画：你能帮我把这个文件重命名吗?</h3>
+	<img src="images/starblank.png" class="star" /><h3>成功不寻常</h3>
+	<img src="images/starblank.png" class="star" /><h3>交易</h3>
+	<img src="images/starblank.png" class="star" /><h3>"测试是浪费时间，我的程序肯定没问题"</h3>
+	<img src="images/starblank.png" class="star" /><h3>愚蠢且能干</h3>
+        <img src="images/starblank.png" class="star" /><h3>让能者不多得</h3>
+	<img src="images/starblank.png" class="star" /><h3>改良程序的11技巧</h3>
+	<img src="images/starblank.png" class="star" /><h3>你不是真的想要100万</h3>
+        <img src="images/starblank.png" class="star" /><h3>一个关于两个国家互派间谍的问题</p>
         </div>
         </div>	
         </div>
 	
        <div id="footer">
-		Copyright &copy; 2010 
+		@ 2011 CopyRight 
 	</div>
 	</body>
 </html>
