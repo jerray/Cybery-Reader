@@ -19,6 +19,15 @@ class CDB{
 
 	//链接数据库
 	function connect($dbhost, $dbuser, $dbpw, $dbname ="", $dbcharset = 'utf-8', $pconnect = 0, $halt = true){
+		$func = emtpy($pconnect) ? 'mysql_connect':'mysql_pconnect';	//如果$pconnect为空则使用$connect
+		$this->dblink = @$func($dbhost, $dbuser, $dbpw);
+		if($halt && !$this->dblink)		//当mysql连接失败调用$this->halt:显示错误信息
+		{
+			$this->halt("无法链接数据库!");
+		}
+	//设置查询字符集
+		mysql_query("SET character_set_connection={$dbcharset}, character_set_results = {$dbcharset}, character_set_client = utf-8",/* $this->dblink */);
+		$dbname && @mysql_select_db($dbname,$this->dblink) ;
 	}
 
 	//选择数据库
