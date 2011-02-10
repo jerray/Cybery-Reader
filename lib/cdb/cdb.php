@@ -36,14 +36,21 @@ class CDB{
 
 	//选择数据库
 	function select_db($dbname){
+		return mysql_select_db($dbname, $this->link);
 	}
 		
 	//执行数据库
 	function query($sql){
+		$this->querynum++;
+		return mysql_query($sql, $this->dblink);
 	}
 
 	//转义字符
 	function escape($string){
+		if(get_magic_quotes_gpc()){
+			$string =stripslashes($string);		
+		}
+		return mysql_real_escape_string($string);
 	}
 
 	//从数据表table_name中取出一条记录，满足条件：字段名为field_name的字段，其值为value
