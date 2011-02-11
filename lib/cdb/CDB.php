@@ -42,8 +42,8 @@ class CDB{
 
 
 	//链接数据库
-	function connect($dbhost, $dbuser, $dbpw){
-		$dblink = mysql_connect($dbhost, $dbuser, $dbpw);
+	function connect($dbhost, $dbuser, $dbpw, $dbname =""){
+		$dblink = mysql_connect($dbhost, $dbuser, $dbpw, $dbname);
 		return $dblink;
 	}
 
@@ -68,10 +68,9 @@ class CDB{
 	}
 
 	//从数据表table_name中取出一条记录，满足条件：字段名为field_name的字段，其值为value
-
 	function fetch($table_name, $field_name, $value){
-		$sql = "select $field_name from $table_name where $field_name = $value; ";
-		$result = @mysql_query($sql);
+		$sql = "select $field_name from $table_name where $field_name";
+		$result = @mysql_query($sql, $dblink);
 		return mysql_fetch_object($result);
 	}
 		
@@ -103,16 +102,18 @@ class CDB{
 		else return false;
 	}
 
-	//更新数据表table_name中的id为id_value的记录，data是一个关联数组，键名为字段名，值为字段的值 
+	//更新数据表table_name中的id为id_value的记录，data是一个关联数组，键名为字段名，值为字段的值  e.g. query_update(boss, $data, "`boss_id` = 6");
 	function query_update($table_name, $data, $where){
 		$q="UPDATE `".$table_name."` SET ";
+	
 		foreach($data as $key=>$val)
 	       	{
+			
 			if(strtolower($val)=='null') $q.= "`$key` = NULL, ";
 			elseif(strtolower($val)=='now()') $q.= "`$key` = NOW(), ";
 			else $q.= "`$key`='".escape($val)."', ";
 		}
-		$q = rtrim($q, ', ') . ' WHERE '.$where.';';
+		$q = rtrim($q, ', ').';';
 	
 		return mysql_query($q);
 	}
