@@ -1,0 +1,58 @@
+【类摘要】
+class CTemplate()
+{
+
+    __construct($template_dir, $compile_dir)
+    bool render($file_name, $data)
+
+}
+【对象的建立】
+该类在创建对象时指定模板目录以及编译文件目录。（编译文件即对模板文件进行翻译后的文件）
+例如：
+
+$template_dir = dirname(__FILE__).'/theme/';
+$compile_dir = dirname(__FILE__).'/theme/compile/'
+$ctp = new CTemplate($template_dir, $compile_dir);
+
+若不进行设置，将使用默认值（不推荐）。分别为文件所在目录的子目录template和compile。
+
+【方法】
+bool render($file_name, $data)：
+将关联数组$data中的数据提交给模板$file_name。该方法将执行模板的翻译处理。
+如果指定的模板文件不存在或参数提交错误，将返回FALSE。
+
+【模板说明】
+支持功能：
+
+1.输出变量。
+  示例： <{ $var }> 。其中，var为render()方法第二个参数关联数组中一个键的名，下同。
+  
+2.分支语句。
+  示例：
+  <{ if($var == 1) }>
+    <div>
+        <p>...</p>
+    </div>
+  <{ else if($var == 2)}>
+    <div>
+        <p>...</p>
+    </div>
+  <{ else }>
+    <div>
+        <p>...</p>
+    </div>
+  <{ /if }>
+  注意：分支语句必须是 if 和 /if 成对匹配。即每一个分支逻辑以if开始，以/if结尾。
+  
+3.循环语句
+  暂无
+  
+4.include语句
+  示例：
+  <{ include ('header.html')}> 或 <{ include 'header.html'}>
+  
+5.PHP函数支持
+  与上述模板形式不同，若使用PHP函数需要使用<{f 函数执行内容}>
+  示例：
+  <{f printf("Simple"); }>
+  <{f $num = count($some_array); }>
