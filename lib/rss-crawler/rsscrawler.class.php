@@ -7,8 +7,8 @@ class RSSCrawler
     private $url = NULL;
     private $isrss = FALSE;
 
-    private $item_num;
-    private $item_cursor;
+    private $item_num = 0;
+    private $item_cursor = 0;
     
     private function fetch_to_assoc($rss)
     {
@@ -62,9 +62,9 @@ class RSSCrawler
     public function open($url)
     {
         if ($this->url)
-            return FALSE;
+            $this->close();
 
-        $this->reader = new XMLReader();
+        $this->reader = $this->reader == NULL ? new XMLReader() : $this->reader;
         if ($this->reader->open($url))
         {
             $this->url = $url;
@@ -105,8 +105,8 @@ class RSSCrawler
             {
                 $this->url = NULL;
                 $this->rss_xml = NULL;
-                $this->reader = NULL;
                 $this->isrss = FALSE;
+                $this->item_num = 0;
                 $this->item_cursor = 0;
                 return TRUE;
             }
