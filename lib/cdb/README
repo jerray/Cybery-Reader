@@ -1,4 +1,14 @@
-1.文件放在U盘里了，拿回来发现中文乱码......  
-稍候处理
+1.功能均已测试过，能够正常使用，附几个函数参数的实例：
 
-2.queryf应该还有些问题～  
+connect(localhost, glove, glovepw);
+
+select_db(glovedb);
+
+fetch(boss, boss_id, 2);
+
+query_update(boss, $data, "`boss_id` = 6");
+
+2.function query_update($table_name, $data)---2个参数的update未能实现，
+改用function query_update($table_name, $data, $where)--实现了3个参数的update
+
+----queryf还未能实现
