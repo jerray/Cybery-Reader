@@ -1,60 +1,90 @@
 <?php
+class CDB{
+	
+	var $querynum = 0;	//当前页面进程查询数据库的次数
+	var $dblink = false;	//数据库链接资源
+	var $dbhost = "";	//服务器
+	var $dbuser = "";	//数据库名
+	var $dbpw = "";		//密码
+	var $dbname = "";	//数据库名
 
-class db_mysql
-{
-	var $querynum = 0; 	//µ±Ç°Ò³Ãæœø³Ì²éÑ¯ÊýŸÝ¿âµÄŽÎÊý
-	var $dblink;	//ÊýŸÝ¿âÁŽœÓ×ÊÔŽ
 
-	//ÁŽœÓÊýŸÝ¿â
-	function connect($dbhost, $dbuser, $dbpw, $dbname = "", $dbcharset = 'utf-8', $pconnect = 0, $halt = true)
-	{
-		$func = emtpy($pconnect) ? 'mysql_connect':'mysql_pconnect';	//Èç¹û$pconnectÎª¿ÕÔòÊ¹ÓÃ$connect
-		$this->dblink = @$func($dbhost, $dbuser, $dbpw);
-		if($halt && !$this->dblink)		//µ±mysqlÁ¬œÓÊ§°Üµ÷ÓÃ$this->halt:ÏÔÊŸŽíÎóÐÅÏ¢
-		{
-			$this->halt("ÎÞ·šÁŽœÓÊýŸÝ¿â!");
+/*		
+	//打印出错信息
+	function halt($msg){
+		$message = "<html>\n<head>\n" ; 
+		$message .= "<meta content='text/html;charset=utf-8'>\n" ; 
+		$message .= "</head>\n" ; 
+		$message .= "<body>\n" ; 
+		$message .= "数据库出错：".htmlspecialchars($msg)."\n" ; 
+		$message .= "</body>\n" ; 
+		$message .= "</html>" ; 
+		echo $message ; 
+		exit ; 
+	}
+
+*/
+	//链接数据库
+//	function connect($dbhost, $dbuser, $dbpw, $dbname ="", $dbcharset = 'utf-8', $pconnect = 0  /*, $halt = true*/){
+//		$func = emtpy($pconnect) ? 'mysql_connect':'mysql_pconnect';	//如果$pconnect为空则使用$connect
+//		$this->dblink = @$func($dbhost, $dbuser, $dbpw);
+//		if(/*$halt && */!$this->dblink)		//当mysql连接失败调用$this->halt:显示错误信息
+//		{
+//			//$this->halt("无法链接数据库!");
+//			return false;
+//		}
+//
+//	//设置查询字符集
+//		mysql_query("SET character_set_connection={$dbcharset}, character_set_results = {$dbcharset}, character_set_client = utf-8",/* $this->dblink */);
+//		$dbname && @mysql_select_db($dbname,$this->dblink) ;
+//		return true;
+//	}
+
+
+	//链接数据库
+	function connect($dbhost, $dbuser, $dbpw){
+		$dblink = mysql_connect($dbhost, $dbuser, $dbpw);
+		return $dblink;
+	}
+
+
+	//选择数据库
+	function select_db($dbname){
+		return mysql_select_db($dbname, $dblink);
+	}
+		
+	//执行数据库
+	function query($sql){
+		$querynum++;
+		return mysql_query($sql, $dblink);
+	}
+
+	//转义字符
+	function escape($string){
+		if(get_magic_quotes_gpc()){
+			$string =stripslashes($string);		
 		}
-	}
-	//ÉèÖÃ²éÑ¯×Ö·ûŒ¯
-	mysql_query("SET character_set_connection={$dbcharset}, character_set_results = {$dbcharset}, character_set_client = utf-8",/* $this->dblink */);
-
-	//Ñ¡ÔñÊýŸÝ¿â
-	function select_db($dbname)
-	{
-		return mysql_select_db($dbname, $this->link);
-	}
-	//ÖŽÐÐÊýŸÝ¿â
-	function query($sql)
-	{
-		$this->querynum++;
-		return mysql_query($sql, $this->dblink);
-	}
-
-	//×ªÒå×Ö·û
-	function escape($string) 
-	{
-		if(get_magic_quotes_gpc()) $string = stripslashes($string);
 		return mysql_real_escape_string($string);
 	}
 
-	//ŽÓÊýŸÝ±ítable_nameÖÐÈ¡³öÒ»ÌõŒÇÂŒ£¬Âú×ãÌõŒþ£º×Ö¶ÎÃûÎªfield_nameµÄ×Ö¶Î£¬ÆäÖµÎªvalue
-	function fetch($table_name, $field_name, $value)
-	{
-		$sql = select $field_name from $table_name where $field_name = $value;
-		$result = mysql_query($sql);
+	//从数据表table_name中取出一条记录，满足条件：字段名为field_name的字段，其值为value
+
+	function fetch($table_name, $field_name, $value){
+		$sql = "select $field_name from $table_name where $field_name = $value; ";
+		$result = @mysql_query($sql);
 		return mysql_fetch_object($result);
 	}
-
-	//ŽÓÊýŸÝ±ítable_nameÖÐÈ¡³öËùÓÐ·ûºÏÌõŒþconditionµÄŒÇÂŒ
-	function get($table_name, $condition)
-	{
-		return select * from $table_name where $condition;
+		
+	//从数据表table_name中取出所有符合条件condition的记录
+	function get($table_name, $condition){
+		$sql = "select * from $table_name where $condition";
+		$result = @mysql_query($sql, $dblink);
+		return mysql_fetch_array($result);
 	}
 
-	//ÏòÊýŸÝ±ítable_nameÖÐ²åÈëÒ»ÌõŒÇÂŒ£¬dataÊÇÒ»žö¹ØÁªÊý×é£¬ŒüÃûÎª×Ö¶ÎÃû£¬ÖµÎª×Ö¶ÎµÄÖµ
-	function insert($table_name, $data)
-       	{
-		$q="INSERT INTO `".$this->pre.$table_name."` ";
+	//向数据表table_name中插入一条记录，data是一个关联数组，键名为字段名，值为字段的值
+	function insert($table_name, $data){
+		$q="INSERT INTO `".$table_name."` ";
 		$v=''; $n='';
 	
 		foreach($data as $key=>$val)
@@ -62,79 +92,44 @@ class db_mysql
 			$n.="`$key`, ";
 			if(strtolower($val)=='null') $v.="NULL, ";
 			elseif(strtolower($val)=='now()') $v.="NOW(), ";
-			else $v.= "'".$this->escape($val)."', ";
+			else $v.= "'".escape($val)."', ";
 		}
 	
 		$q .= "(". rtrim($n, ', ') .") VALUES (". rtrim($v, ', ') .");";
 	
-		if($this->query($q)){
+		if(mysql_query($q)){
 			return mysql_insert_id();
 		}
 		else return false;
 	}
-		
-	//žüÐÂÊýŸÝ±ítable_nameÖÐµÄidÎªid_valueµÄŒÇÂŒ£¬dataÊÇÒ»žö¹ØÁªÊý×é£¬ŒüÃûÎª×Ö¶ÎÃû£¬ÖµÎª×Ö¶ÎµÄÖµ
-	function query_update($table_name, $data)
-	{
-		$q="UPDATE `".$this->pre.$table_name."` SET ";
-	
+
+	//更新数据表table_name中的id为id_value的记录，data是一个关联数组，键名为字段名，值为字段的值 
+	function query_update($table_name, $data, $where){
+		$q="UPDATE `".$table_name."` SET ";
 		foreach($data as $key=>$val)
 	       	{
 			if(strtolower($val)=='null') $q.= "`$key` = NULL, ";
 			elseif(strtolower($val)=='now()') $q.= "`$key` = NOW(), ";
-			else $q.= "`$key`='".$this->escape($val)."', ";
+			else $q.= "`$key`='".escape($val)."', ";
 		}
 		$q = rtrim($q, ', ') . ' WHERE '.$where.';';
 	
-		return $this->query($q);
+		return mysql_query($q);
 	}
 
-	//ŸßÓÐ¿É±ä²ÎÊýžöÊýµÄº¯Êý£¬ÀàËÆÓÚsprintf£¬fsql¶šÒåÁËŸÝžñÊœ£¬v1, v2µÈ±äÁ¿¶šÒåÁËÒªÌæ»»µÄÖµ£¬È»ºóœ«Ìæ»»ºóµÄ×Ö·ûŽ®×÷ÎªÊýŸÝ¿â²éÑ¯œøÐÐÖŽÐÐ
-
-	
-	function queryf()
-	{
+	//具有可变参数个数的函数，类似于sprintf，fsql定义了数据格式，v1, v2等变量定义了要替换的值，然后将替换后的字符串作为数据库查询进行执行
+	function queryf(){
 		$pa = func_get_args();
+		$args_num = func_num_args();		
 
-		$data = $pa[0] array();			///$pa[0]  žñÊœ......???????
-		for($i = 1; $i < func_num_args(); $i++)
-		{
-			$data[$i - 1] = $pa[$i];
-		}
-		foreach($data as $key=>$val)
-	       	{
-			if(strtolower($val)=='null') $q.= "`$key` = NULL, ";
-			elseif(strtolower($val)=='now()') $q.= "`$key` = NOW(), ";
-			else $q.= "`$key`='".$this->escape($val)."', ";
-		}
-
-		$q = "SELECT `". rtrim($q, ', ') ."` from ".$this->pre.$table_name."` " . ' WHERE '.$where.';';
 	}
-
-	//¹Ø±ÕÁ¬œÓ
-	function close()
-	{
-		return mysql_close($this->dblink);
+		
+	//关闭链接
+	function close(){
+		return mysql_close($dblink);
 	}
-
-
 }
-?>  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+?>
 
 
 
