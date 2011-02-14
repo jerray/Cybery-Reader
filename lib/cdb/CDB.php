@@ -88,9 +88,10 @@ class CDB{
 
 	//具有可变参数个数的函数，类似于sprintf，fsql定义了数据格式，v1, v2等变量定义了要替换的值，然后将替换后的字符串作为数据库查询进行执行
 	function queryf(){
-		$pa = func_get_args();
-		$args_num = func_num_args();		
-
+			$pa = func_get_args();
+			$sql = call_user_func_array("sprintf", $pa);
+			$result = mysql_query($sql);
+			return $result;
 	}
 		
 	//关闭链接

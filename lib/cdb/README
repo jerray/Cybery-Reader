@@ -8,7 +8,10 @@ fetch(boss, boss_id, 2);
 
 query_update(boss, $data, "`boss_id` = 6");
 
+queryf("insert into %s (%s, %s) values (%d, '%s');", boss, boss_id, name, 13, shit);
+
 2.function query_update($table_name, $data)---2个参数的update未能实现，
 改用function query_update($table_name, $data, $where)--实现了3个参数的update
 
-----queryf还未能实现
+3.附一个自己测试时候的文件：test.php
+
