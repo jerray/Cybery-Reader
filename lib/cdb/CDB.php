@@ -9,41 +9,9 @@ class CDB{
 	var $dbname = "";	//数据库名
 
 
-/*		
-	//打印出错信息
-	function halt($msg){
-		$message = "<html>\n<head>\n" ; 
-		$message .= "<meta content='text/html;charset=utf-8'>\n" ; 
-		$message .= "</head>\n" ; 
-		$message .= "<body>\n" ; 
-		$message .= "数据库出错：".htmlspecialchars($msg)."\n" ; 
-		$message .= "</body>\n" ; 
-		$message .= "</html>" ; 
-		echo $message ; 
-		exit ; 
-	}
-
-*/
 	//链接数据库
-//	function connect($dbhost, $dbuser, $dbpw, $dbname ="", $dbcharset = 'utf-8', $pconnect = 0  /*, $halt = true*/){
-//		$func = emtpy($pconnect) ? 'mysql_connect':'mysql_pconnect';	//如果$pconnect为空则使用$connect
-//		$this->dblink = @$func($dbhost, $dbuser, $dbpw);
-//		if(/*$halt && */!$this->dblink)		//当mysql连接失败调用$this->halt:显示错误信息
-//		{
-//			//$this->halt("无法链接数据库!");
-//			return false;
-//		}
-//
-//	//设置查询字符集
-//		mysql_query("SET character_set_connection={$dbcharset}, character_set_results = {$dbcharset}, character_set_client = utf-8",/* $this->dblink */);
-//		$dbname && @mysql_select_db($dbname,$this->dblink) ;
-//		return true;
-//	}
-
-
-	//链接数据库
-	function connect($dbhost, $dbuser, $dbpw){
-		$dblink = mysql_connect($dbhost, $dbuser, $dbpw);
+	function connect($dbhost, $dbuser, $dbpw, $dbname =""){
+		$dblink = mysql_connect($dbhost, $dbuser, $dbpw, $dbname);
 		return $dblink;
 	}
 
@@ -68,10 +36,9 @@ class CDB{
 	}
 
 	//从数据表table_name中取出一条记录，满足条件：字段名为field_name的字段，其值为value
-
 	function fetch($table_name, $field_name, $value){
-		$sql = "select $field_name from $table_name where $field_name = $value; ";
-		$result = @mysql_query($sql);
+		$sql = "select $field_name from $table_name where $field_name";
+		$result = @mysql_query($sql, $dblink);
 		return mysql_fetch_object($result);
 	}
 		
@@ -103,25 +70,28 @@ class CDB{
 		else return false;
 	}
 
-	//更新数据表table_name中的id为id_value的记录，data是一个关联数组，键名为字段名，值为字段的值 
+	//更新数据表table_name中的id为id_value的记录，data是一个关联数组，键名为字段名，值为字段的值  e.g. query_update(boss, $data, "`boss_id` = 6");
 	function query_update($table_name, $data, $where){
 		$q="UPDATE `".$table_name."` SET ";
+	
 		foreach($data as $key=>$val)
 	       	{
+			
 			if(strtolower($val)=='null') $q.= "`$key` = NULL, ";
 			elseif(strtolower($val)=='now()') $q.= "`$key` = NOW(), ";
 			else $q.= "`$key`='".escape($val)."', ";
 		}
-		$q = rtrim($q, ', ') . ' WHERE '.$where.';';
+		$q = rtrim($q, ', ').';';
 	
 		return mysql_query($q);
 	}
 
 	//具有可变参数个数的函数，类似于sprintf，fsql定义了数据格式，v1, v2等变量定义了要替换的值，然后将替换后的字符串作为数据库查询进行执行
 	function queryf(){
-		$pa = func_get_args();
-		$args_num = func_num_args();		
-
+			$pa = func_get_args();
+			$sql = call_user_func_array("sprintf", $pa);
+			$result = mysql_query($sql);
+			return $result;
 	}
 		
 	//关闭链接
