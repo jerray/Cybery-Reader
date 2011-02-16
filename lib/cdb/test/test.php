@@ -42,11 +42,8 @@ echo '</p>';
 	}
 
 
-function fetch($table_name, $field_name, $value = NULL){
-		if($value == NULL)
-			$sql = "select $field_name from $table_name;";
-		else
-			$sql = "select $field_name from $table_name where $field_name = $value; ";
+function fetch($table_name, $field_name, $value){
+		$sql = "select $field_name from $table_name where $field_name = $value; ";
 
 
 echo $sql;
@@ -57,7 +54,6 @@ if(!$result)
 echo "wocaole";
 		return mysql_fetch_object($result);
 	}
-
 
 
 $result = connect(localhost, root, shoutao);
@@ -85,10 +81,11 @@ $dd[name] = caocaocao;
 $lk = fetch(boss, boss_id, 2);
 
 if($lk)
-echo "11111";
+echo "11";
 else
 echo "11failed";
 $fuckyou = query_update(boss, $dd, "`boss_id` = 6");
+
 
 echo '</p>';
 echo "1111";
@@ -103,32 +100,4 @@ if($fuckyou )
 else
 	echo "sorry ,i can't do so";
 
-echo '</p>'."1";
-
-echo '</p>'."1";
-echo '</p>'."1";
-echo '</p>'."1";
-echo '</p>';
-
-
-
-
-
-function queryf(){
-			$pa = func_get_args();
-			$sql = call_user_func_array("sprintf", $pa);
-			$result = mysql_query($sql);
-			return $result;
-		//	return $sql;
-	}
-//echo $ddd = queryf("insert into %s (%s, %s) values (%d, '%s');", boss, boss_id, name, 13, shit);
-$ddd = queryf("insert into %s (%s, %s) values (%d, '%s');", boss, boss_id, name, 13, shit);
-if($ddd)
-echo "ddd";
-else
-echo "unddd";
 ?>
-
-
-
-

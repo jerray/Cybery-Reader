@@ -36,15 +36,21 @@ class CDB{
 	}
 
 	//从数据表table_name中取出一条记录，满足条件：字段名为field_name的字段，其值为value
-	function fetch($table_name, $field_name, $value){
-		$sql = "select $field_name from $table_name where $field_name";
+	function fetch($table_name, $field_name, $value = NULL){
+		if($value == NULL)
+			$sql = "select $field_name from $table_name";
+		else
+			$sql = "select $field_name from $table_name where $field_name = $value";
 		$result = @mysql_query($sql, $dblink);
 		return mysql_fetch_object($result);
 	}
 		
 	//从数据表table_name中取出所有符合条件condition的记录
-	function get($table_name, $condition){
-		$sql = "select * from $table_name where $condition";
+	function get($table_name, $condition = NULL){
+		if($condition == NULL)
+			$sql = "select * from $table_name";
+		else
+			$sql = "select * from $table_name where $condition";
 		$result = @mysql_query($sql, $dblink);
 		return mysql_fetch_array($result);
 	}

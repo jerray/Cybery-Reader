@@ -42,11 +42,8 @@ echo '</p>';
 	}
 
 
-function fetch($table_name, $field_name, $value = NULL){
-		if($value == NULL)
-			$sql = "select $field_name from $table_name;";
-		else
-			$sql = "select $field_name from $table_name where $field_name = $value; ";
+function fetch($table_name, $field_name, $value){
+		$sql = "select $field_name from $table_name where $field_name = $value; ";
 
 
 echo $sql;
@@ -85,7 +82,7 @@ $dd[name] = caocaocao;
 $lk = fetch(boss, boss_id, 2);
 
 if($lk)
-echo "11111";
+echo "11";
 else
 echo "11failed";
 $fuckyou = query_update(boss, $dd, "`boss_id` = 6");
