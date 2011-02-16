@@ -18,13 +18,13 @@ class CDB{
 
 	//选择数据库
 	function select_db($dbname){
-		return mysql_select_db($dbname, $dblink);
+		return mysql_select_db($dbname);
 	}
 		
 	//执行数据库
 	function query($sql){
 		$querynum++;
-		return mysql_query($sql, $dblink);
+		return mysql_query($sql);
 	}
 
 	//转义字符
@@ -41,7 +41,7 @@ class CDB{
 			$sql = "select $field_name from $table_name;";
 		else
 			$sql = "select $field_name from $table_name where $field_name = $value;";
-		$result = @mysql_query($sql, $dblink);
+		$result = @mysql_query($sql);
 		return mysql_fetch_array($result);
 	}
 		
@@ -51,7 +51,7 @@ class CDB{
 			$sql = "select * from $table_name;";
 		else
 			$sql = "select * from $table_name where $condition;";
-		$result = @mysql_query($sql, $dblink);
+		$result = @mysql_query($sql);
 		return mysql_fetch_array($result);
 	}
 
@@ -65,7 +65,7 @@ class CDB{
 			$n.="`$key`, ";
 			if(strtolower($val)=='null') $v.="NULL, ";
 			elseif(strtolower($val)=='now()') $v.="NOW(), ";
-			else $v.= "'".escape($val)."', ";
+			else $v.= "'".$this->escape($val)."', ";
 		}
 	
 		$q .= "(". rtrim($n, ', ') .") VALUES (". rtrim($v, ', ') .");";
@@ -85,7 +85,7 @@ class CDB{
 	       	{
 			if(strtolower($val)=='null') $q.= "`$key` = NULL, ";
 			elseif(strtolower($val)=='now()') $q.= "`$key` = NOW(), ";
-			else $q.= "`$key`='".escape($val)."', ";
+			else $q.= "`$key`='".$this->escape($val)."', ";
 		}
 		$q = rtrim($q, ', ') . ' WHERE '."`$id` = $id_value".';';
 echo $q.'</p>';
@@ -105,7 +105,7 @@ echo $q.'</p>';
 		
 	//关闭链接
 	function close(){
-		return mysql_close($dblink);
+		return mysql_close();
 	}
 }
 ?>
