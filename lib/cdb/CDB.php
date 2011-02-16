@@ -36,15 +36,21 @@ class CDB{
 	}
 
 	//从数据表table_name中取出一条记录，满足条件：字段名为field_name的字段，其值为value
-	function fetch($table_name, $field_name, $value){
-		$sql = "select $field_name from $table_name where $field_name";
+	function fetch($table_name, $field_name, $value = NULL){
+		if($value == NULL)
+			$sql = "select $field_name from $table_name;";
+		else
+			$sql = "select $field_name from $table_name where $field_name = $value;";
 		$result = @mysql_query($sql, $dblink);
-		return mysql_fetch_object($result);
+		return mysql_fetch_array($result);
 	}
 		
 	//从数据表table_name中取出所有符合条件condition的记录
-	function get($table_name, $condition){
-		$sql = "select * from $table_name where $condition";
+	function get($table_name, $condition = NULL){
+		if($condition == NULL)
+			$sql = "select * from $table_name;";
+		else
+			$sql = "select * from $table_name where $condition;";
 		$result = @mysql_query($sql, $dblink);
 		return mysql_fetch_array($result);
 	}
@@ -70,28 +76,31 @@ class CDB{
 		else return false;
 	}
 
-	//更新数据表table_name中的id为id_value的记录，data是一个关联数组，键名为字段名，值为字段的值  e.g. query_update(boss, $data, "`boss_id` = 6");
-	function query_update($table_name, $data, $where){
+	//更新数据表table_name中的id为id_value的记录，data是一个关联数组，键名为字段名，值为字段的值  e.g. query_update(boss, $data, boss_id, 6);
+	function query_update($table_name, $data, $id, $id_value)
+	{
 		$q="UPDATE `".$table_name."` SET ";
-	
+
 		foreach($data as $key=>$val)
 	       	{
-			
 			if(strtolower($val)=='null') $q.= "`$key` = NULL, ";
 			elseif(strtolower($val)=='now()') $q.= "`$key` = NOW(), ";
 			else $q.= "`$key`='".escape($val)."', ";
 		}
-		$q = rtrim($q, ', ').';';
-	
+		$q = rtrim($q, ', ') . ' WHERE '."`$id` = $id_value".';';
+echo $q.'</p>';
 		return mysql_query($q);
-	}
 
+	}
 	//具有可变参数个数的函数，类似于sprintf，fsql定义了数据格式，v1, v2等变量定义了要替换的值，然后将替换后的字符串作为数据库查询进行执行
 	function queryf(){
 			$pa = func_get_args();
 			$sql = call_user_func_array("sprintf", $pa);
 			$result = mysql_query($sql);
-			return $result;
+			if(is_bool($result))
+				return $result;
+			else
+				return mysql_fetch_array($result);			
 	}
 		
 	//关闭链接
