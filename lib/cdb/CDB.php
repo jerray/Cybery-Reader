@@ -9,38 +9,6 @@ class CDB{
 	var $dbname = "";	//数据库名
 
 
-/*		
-	//打印出错信息
-	function halt($msg){
-		$message = "<html>\n<head>\n" ; 
-		$message .= "<meta content='text/html;charset=utf-8'>\n" ; 
-		$message .= "</head>\n" ; 
-		$message .= "<body>\n" ; 
-		$message .= "数据库出错：".htmlspecialchars($msg)."\n" ; 
-		$message .= "</body>\n" ; 
-		$message .= "</html>" ; 
-		echo $message ; 
-		exit ; 
-	}
-
-*/
-	//链接数据库
-//	function connect($dbhost, $dbuser, $dbpw, $dbname ="", $dbcharset = 'utf-8', $pconnect = 0  /*, $halt = true*/){
-//		$func = emtpy($pconnect) ? 'mysql_connect':'mysql_pconnect';	//如果$pconnect为空则使用$connect
-//		$this->dblink = @$func($dbhost, $dbuser, $dbpw);
-//		if(/*$halt && */!$this->dblink)		//当mysql连接失败调用$this->halt:显示错误信息
-//		{
-//			//$this->halt("无法链接数据库!");
-//			return false;
-//		}
-//
-//	//设置查询字符集
-//		mysql_query("SET character_set_connection={$dbcharset}, character_set_results = {$dbcharset}, character_set_client = utf-8",/* $this->dblink */);
-//		$dbname && @mysql_select_db($dbname,$this->dblink) ;
-//		return true;
-//	}
-
-
 	//链接数据库
 	function connect($dbhost, $dbuser, $dbpw, $dbname =""){
 		$dblink = mysql_connect($dbhost, $dbuser, $dbpw, $dbname);
@@ -120,9 +88,10 @@ class CDB{
 
 	//具有可变参数个数的函数，类似于sprintf，fsql定义了数据格式，v1, v2等变量定义了要替换的值，然后将替换后的字符串作为数据库查询进行执行
 	function queryf(){
-		$pa = func_get_args();
-		$args_num = func_num_args();		
-
+			$pa = func_get_args();
+			$sql = call_user_func_array("sprintf", $pa);
+			$result = mysql_query($sql);
+			return $result;
 	}
 		
 	//关闭链接
