@@ -87,15 +87,20 @@ class CDB{
 			elseif(strtolower($val)=='now()') $q.= "`$key` = NOW(), ";
 			else $q.= "`$key`='".escape($val)."', ";
 		}
-		$q = rtrim($q, ', ') . ' WHERE '.$id = $id_value.';';
+		$q = rtrim($q, ', ') . ' WHERE '."`$id` = $id_value".';';
+echo $q.'</p>';
 		return mysql_query($q);
+
 	}
 	//具有可变参数个数的函数，类似于sprintf，fsql定义了数据格式，v1, v2等变量定义了要替换的值，然后将替换后的字符串作为数据库查询进行执行
 	function queryf(){
 			$pa = func_get_args();
 			$sql = call_user_func_array("sprintf", $pa);
 			$result = mysql_query($sql);
-			return $result;
+			if(is_bool($result))
+				return $result;
+			else
+				return mysql_fetch_array($result);			
 	}
 		
 	//关闭链接
