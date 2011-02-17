@@ -46,7 +46,7 @@ class CTemplate
             '/<\{\s*include\s+[\(]?[\"\']?(.+?)[\"\']?[\)]?\s*\}>/ie',//匹配include
             '/<\{f\s+(.+?)\s*\}>/is',//匹配使用函数规则
             '/<\{\s*loop\s+\$([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s+\$([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s*\}>(.+?)<\{\s*\/loop\s*\}>/is',
-            '/<\{\s*loop\s+\$([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s+\$([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s*=>\s*\$([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\}>(.+?)<\{\s*\/loop\s*\}>/is'
+            '/<\{\s*loop\s+\$([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s+\$([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s*=>\s*\$([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s*\}>(.+?)<\{\s*\/loop\s*\}>/is'
         );
 
         $replacement = array(
