@@ -52,7 +52,7 @@ class CTemplate
         $replacement = array(
             '<?php echo $this->tpl_vars["${1}"]; ?>',//替换变量
             '$this->stripvtags(\'<?php if(${1}){ ?>\', \'${2}<?php } ?>\')',//替换if语句
-            '$this->stripvtags(\'<?php elseif(${1}) ?>\', "")',//替换else if语句
+            '$this->stripvtags(\'<?php } elseif(${1}){ ?>\', "")',//替换else if语句
             '<?php } else { ?>',//替换else语句
             'file_get_contents($this->template_dir."${1}")',//替换include
             '<?php ${1} ?>',//替换PHP函数
