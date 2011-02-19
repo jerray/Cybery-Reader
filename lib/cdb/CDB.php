@@ -10,9 +10,11 @@ class CDB{
 
 
 	//链接数据库
-	function connect($dbhost, $dbuser, $dbpw, $dbname =""){
-		$dblink = mysql_connect($dbhost, $dbuser, $dbpw, $dbname);
-		return $dblink;
+	function connect($dbhost, $dbuser, $dbpw, $dbname = ""){
+		$this->dblink = mysql_connect($dbhost, $dbuser, $dbpw);
+		if(!empty($dbname))
+			mysql_select_db($dbname);
+		return $this->dblink;
 	}
 
 
@@ -23,8 +25,13 @@ class CDB{
 		
 	//执行数据库
 	function query($sql){
-		$querynum++;
-		return mysql_query($sql);
+		if($this->dblink)
+		{
+			$this->querynum++;
+			return mysql_query($sql);
+		}else{
+			return false;
+		}
 	}
 
 	//转义字符
@@ -35,27 +42,36 @@ class CDB{
 		return mysql_real_escape_string($string);
 	}
 
-	//从数据表table_name中取出一条记录，满足条件：字段名为field_name的字段，其值为value
+	/*
+	 * @brief : 从数据表table_name中取出一条记录，满足条件：字段名为field_name的字段，其值为value
+	 */
 	function fetch($table_name, $field_name, $value = NULL){
 		if($value == NULL)
-			$sql = "select $field_name from $table_name;";
+			$sql = "SELECT * FROM `$table_name`;";
 		else
-			$sql = "select $field_name from $table_name where $field_name = $value;";
-		$result = @mysql_query($sql);
+			$sql = "SELECT * FROM `$table_name` WHERE `$field_name` = '$value';";
+		$result = $this->query($sql);
 		return mysql_fetch_array($result);
 	}
 		
-	//从数据表table_name中取出所有符合条件condition的记录
+	/*
+	 * @brief : 从数据表table_name中取出所有符合条件condition的记录
+	 */
 	function get($table_name, $condition = NULL){
 		if($condition == NULL)
-			$sql = "select * from $table_name;";
+			$sql = "SELECT * FROM `$table_name`;";
 		else
-			$sql = "select * from $table_name where $condition;";
-		$result = @mysql_query($sql);
-		return mysql_fetch_array($result);
+			$sql = "SELECT * FROM `$table_name` WHERE $condition;";
+		$result = $this->query($sql);
+
+		$rs = array();
+		while( ($row = mysql_fetch_array($result)) )	$rs[] = $row;
+		return $rs;
 	}
 
-	//向数据表table_name中插入一条记录，data是一个关联数组，键名为字段名，值为字段的值
+	/*
+	 * @brief : 向数据表table_name中插入一条记录，data是一个关联数组，键名为字段名，值为字段的值
+	 */
 	function insert($table_name, $data){
 		$q="INSERT INTO `".$table_name."` ";
 		$v=''; $n='';
@@ -70,27 +86,42 @@ class CDB{
 	
 		$q .= "(". rtrim($n, ', ') .") VALUES (". rtrim($v, ', ') .");";
 	
-		if(mysql_query($q)){
+		if($this->query($q)){
 			return mysql_insert_id();
 		}
 		else return false;
 	}
 
-	//更新数据表table_name中的id为id_value的记录，data是一个关联数组，键名为字段名，值为字段的值  e.g. query_update(boss, $data, boss_id, 6);
-	function query_update($table_name, $data, $id, $id_value)
+	/*
+	 * @brief : 更新数据库条目
+	 * @desc : 更新数据表table_name中的id为id_value的记录，data是一个关联数组，键名为字段名，值为字段的值
+	 * @return true or false
+	 */
+	function update($table, $id, $data)
 	{
-		$q="UPDATE `".$table_name."` SET ";
+		$sql = "UPDATE `$table` SET ";
 
-		foreach($data as $key=>$val)
-	       	{
-			if(strtolower($val)=='null') $q.= "`$key` = NULL, ";
-			elseif(strtolower($val)=='now()') $q.= "`$key` = NOW(), ";
-			else $q.= "`$key`='".$this->escape($val)."', ";
-		}
-		$q = rtrim($q, ', ') . ' WHERE '."`$id` = $id_value".';';
-echo $q.'</p>';
-		return mysql_query($q);
+		if(is_array($data) && count($data) > 0):
+			foreach($data as $field => $value):
+				$sql .= "`$field` = '". $this->escape($value) ."',";
+			endforeach;
 
+			$sql = rtrim($sql, ', ') . " WHERE `id` = '$id'";
+
+			return $this->query($sql);
+		else:
+			return false;
+		endif;
+
+	}
+	/*
+	 * @brief : 删除$table中id为$id的行
+	 */
+	function delete($table, $id)
+	{
+		$sql = "DELETE FROM `$table` WHERE `id` = '$id'";
+
+		return $this->query($sql);
 	}
 	//具有可变参数个数的函数，类似于sprintf，fsql定义了数据格式，v1, v2等变量定义了要替换的值，然后将替换后的字符串作为数据库查询进行执行
 	function queryf(){
@@ -109,6 +140,3 @@ echo $q.'</p>';
 	}
 }
 ?>
-
-
-
