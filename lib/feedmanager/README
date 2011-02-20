@@ -1,0 +1,65 @@
+【类摘要】
+FeedManager{
+
+    /*方法*/
+    __construct( int $uid )
+    array get_feeds()
+    void select_feed( int $fid)
+    array get_items()
+    array get_comments( int $iid )
+    int add_comment( int $iid, string $content )
+    bool add_feed( $url )
+    array find_feed( $url )
+    bool unlink_feed( $fid )
+    bool item_action( $attr )
+}
+
+【创建对象】
+创建对象时要根据当前登入用户的ID设定 $uid 的值
+例：
+$uid = 1;
+$fm = new FeedManager($uid);
+
+【方法】
+array get_feeds()：
+获得当前用户订阅的所有feed。
+返回值是一个关联数组，包含feeds表的所有字段。
+
+void select_feed( int $fid)：
+设定当前所浏览的Feed的ID。
+
+array get_items()：
+获取当前浏览的Feed中的所有文章。
+返回值是一个关联数组，包含items表的所有字段以及useritem表的read,share,fav字段。
+
+array get_comments( int $iid )：
+获取ID为$iid的文章的所有评论。
+返回值是一个关联数组，包含comments表的所有字段以及users表的username,alias字段。
+
+int add_comment( int $iid, string $content )：
+向ID为$iid的文章添加内容为 $content的评论。
+返回值是此条评论在comments表中的ID。
+
+bool add_feed( $url )：
+当前用户添加一个地址为$url的订阅源。
+该方法将先判断数据库中是否含有此订阅源。如果含有，则判断用户是否订阅了该订阅源，如果未订阅则将此用户和这个订阅源建立关联。如果数据库中不含有该订阅源的内容，则尝试向数据库中添加这个订阅源并与该用户关联。
+执行成功时返回TRUE，失败时返回FALSE。
+
+array find_feed( $url )：
+当add_feed( $url )方法失败时，有可能是用户输入的不是RSS文档所在的地址。例如一个博客的首页地址。这时可以调用该方法查找 $url 所在页面是否含有RSS Feed的地址。找到则返回一个关联数组。title键是页面提供的RSS Feed地址的标题，url键为其地址。
+
+bool unlink_feed( $fid )：
+用户删除一个订阅源时，实际并不从数据库中删除。而是在关系表中删除他们的关联。
+该方法成功时返回TRUE，失败时返回FALSE。
+
+bool item_action( $attr )：
+参数 $attr 需要是一个关联数组，数组的各个键名对应useritem表的各个字段名。
+该函数用来更新一个用户对应文章的属性。例如用户1读过ID为2的文章，没有分享，没有选择喜欢。则：
+    $attr = array(
+        'uid' => 1,
+        'iid' => 2,
+        'read' => TRUE,
+        'share' => FALSE,
+        'fav' => FALSE,
+    );
+操作成功时返回TRUE，失败时返回FALSE。

@@ -16,6 +16,7 @@ include( APP_ROOT . 'core/Action.class.php' );
 /* 加载基础库 */
 include( LIB_ROOT . 'cdb/CDB.php' );
 include( LIB_ROOT . 'ctemplate/ctemplate.class.php' );
+include( LIB_ROOT . 'feedmanager/feedmanager.class.php');
 
 /* 数据库设置 */
 $db = new CDB();
