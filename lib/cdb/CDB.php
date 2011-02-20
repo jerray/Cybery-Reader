@@ -8,6 +8,8 @@ class CDB{
 	var $dbpw = "";		//密码
 	var $dbname = "";	//数据库名
 
+	var $insert_id = 0;
+
 
 	//链接数据库
 	function connect($dbhost, $dbuser, $dbpw, $dbname = ""){
@@ -28,7 +30,13 @@ class CDB{
 		if($this->dblink)
 		{
 			$this->querynum++;
-			return mysql_query($sql);
+			$r =  mysql_query($sql);
+
+			$id = mysql_insert_id();
+			if($id)
+				$this->insert_id = $id;
+
+			return $r;
 		}else{
 			return false;
 		}
@@ -87,9 +95,14 @@ class CDB{
 		$q .= "(". rtrim($n, ', ') .") VALUES (". rtrim($v, ', ') .");";
 	
 		if($this->query($q)){
-			return mysql_insert_id();
+			$this->insert_id = mysql_insert_id();
+			return $this->insert_id;
 		}
 		else return false;
+	}
+	function insert_id()
+	{
+		return $this->insert_id;
 	}
 
 	/*
@@ -124,16 +137,87 @@ class CDB{
 		return $this->query($sql);
 	}
 	//具有可变参数个数的函数，类似于sprintf，fsql定义了数据格式，v1, v2等变量定义了要替换的值，然后将替换后的字符串作为数据库查询进行执行
-	function queryf(){
-			$pa = func_get_args();
-			$sql = call_user_func_array("sprintf", $pa);
-			$result = mysql_query($sql);
-			if(is_bool($result))
-				return $result;
-			else
-				return mysql_fetch_array($result);			
+	const NUM = 'd';
+	const STR = 's';
+	const RAW = 'r';
+	const ESC = '%';
+
+	function queryf()
+	{
+		$args = func_get_args();
+
+		if( ($argCount = count($args)) == 0 )
+			return false;
+
+		$format = $args[0];
+		$arg_pos = 1;
+		$esc_pos = false;
+		$v_pos = 0;
+
+		$sql = '';
+
+		while(true)
+		{
+			$esc_pos = strpos($format, CDB::ESC, $v_pos);
+			if($esc_pos === false)
+			{
+				$sql .= substr($format, $v_pos);
+				break;
+			}
+
+			$sql .= substr($format, $v_pos, $esc_pos - $v_pos);
+
+			$esc_pos++;
+			$v_pos = $esc_pos + 1;
+
+			if($esc_pos == strlen($format))
+			{// % 后面没有类型字符
+				return false;
+			}
+
+			$v_char = $format{$esc_pos};
+
+			if($v_char != CDB::ESC)
+			{
+				if($argCount <= $arg_pos)
+				{// 参数个数不够
+					return false;
+				}
+				$arg = $args[$arg_pos++];
+			}
+
+			switch($v_char){
+			case CDB::NUM:
+				$sql .= intval($arg);
+				break;
+			case CDB::STR:
+				$sql .= $this->escape($arg);
+				break;
+			case CDB::RAW:
+				$sql .= $arg;
+			case CDB::ESC:
+				$sql .= CDB::ESC;
+				break;
+			default: //非法的符号
+				return false;
+			}
+		}
+
+		$rs = $this->query($sql);
+
+		if(is_bool($rs))
+		{
+			return $rs;
+		}
+		else
+		{
+			$r = array();
+			while( ($row = mysql_fetch_array($rs)) )	$r[] = $row;
+
+			return $r;
+		}
 	}
-		
+	
 	//关闭链接
 	function close(){
 		return mysql_close();
