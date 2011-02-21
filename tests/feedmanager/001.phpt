@@ -3,7 +3,7 @@
 --FILE--
 <?php
 include(dirname(__FILE__).'/../../lib/cdb/CDB.php');
-include(dirname(__FILE__).'/../../lib/feedmanager/feedmanager.class.php');
+include(dirname(__FILE__).'/../../models/feedmanager.class.php');
 include(dirname(__FILE__).'/../../lib/rss-crawler/rsscrawler.class.php');
 
 $db = new CDB();
