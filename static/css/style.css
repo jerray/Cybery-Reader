@@ -9,7 +9,7 @@ a{
 	color: black;
 }
 a:link{
-	text-decoration:none;
+	text-decoration: none;
 }
 a.rightext{
 	color: #87CEEB;
@@ -35,6 +35,11 @@ li{
 	margin-bottom: 5px;
 }
 li.choose{
+	border-color: transparent;
+	border-top-style:solid;
+	border-top-width:thin;
+	border-bottom-style:solid;
+	border-bottom-width:thin;
 	margin-left: 30px;
 }
 li.rightext{
