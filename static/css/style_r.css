@@ -1,0 +1,118 @@
+﻿*{
+	margin: 0;
+	padding: 0;
+}
+img{
+        float:left;	
+}
+p{
+	margin: 7px;
+}
+img.logo{
+	margin-top: 5px;
+	margin-left: 30px;
+        height: 75%;
+}
+img.logonote{
+        margin-top: 21px;
+}
+img.delete{
+	margin-top: 8px;
+	margin-left: 15px;
+	margin-right: 5px;
+}
+#header{
+	clear:both;
+	height: 55px;
+	background-image:url(images/header.jpg);
+	background-repeat:repeat-x;
+}
+#message{
+	clear:both;
+        background-image:url(images/message.png);
+	background-repeat: repeat-x;	
+	height: 35px;
+	border-color:gray;
+	border-style:solid;
+	border-width:thin;
+	border-bottom-style:none;
+}
+#messagetext{
+	clear:both;
+	margin-top: 0px;
+        background-image:url(images/message.png);
+	background-repeat: repeat-x;
+	height: 35px;
+	display:none;
+	border-top-color: black;
+	border-style: solid;
+	border-width: thin;
+	border-bottom-style: none;
+}
+#context{
+	margin-top: 100px;
+	margin-left:auto;
+	margin-right:auto;
+	width: 480px;
+	height: 251px;
+	background-image:url(images/frame.png);
+}
+img.step{
+	margin-top: 25px;
+	margin-bottom: 10px;
+	margin-left: 30px;
+	margin-right: 30px;
+
+}
+img.command{
+        float:right;
+	margin-top: 60px;
+        margin-right: 40px;
+
+}
+img.command_1{
+	float:right;
+	margin-top: -30px;
+        margin-right: 40px;
+}
+input.command{
+        float:right;
+	width:112px;
+	height:34px;
+	margin-top: 60px;
+        margin-right: 40px;
+
+}
+input.command_1{
+	float:right;
+	width:112px;
+	height:34px;
+	margin-top: -30px;
+        margin-right: 40px;
+}
+img.title{
+	clear:both;
+	margin: 10px;
+	margin-top: 20px;
+}
+input{
+	float:left;
+	height: 30px;
+	width: 230px;
+	margin-left: 50px;
+}
+input.email{
+	margin-top: 60px;
+}
+input.name{
+	margin-top: 40px;
+}
+input.password{
+	margin-top: 20px;
+}
+input.realname{
+	margin-top: 60px;
+}
+input.address{
+	margin-top: 60px;
+}

@@ -45,7 +45,21 @@ bool render($file_name, $data)：
   注意：分支语句必须是 if 和 /if 成对匹配。即每一个分支逻辑以if开始，以/if结尾。
   
 3.循环语句
-  暂无
+  一维数组遍历：
+    <{ loop $array $row }>
+        <{ $row }>
+    <{ /loop }>
+  遍历键和值
+    <{ loop $array $key => $value }>
+        <{ $key }>
+        <{ $value }>
+    <{ /loop }>
+  多维数组遍历
+    <{ loop $array $row }>
+        <{ loop $row $next }>
+            ...
+        <{ /loop }>
+    <{ /loop }>
   
 4.include语句
   示例：
