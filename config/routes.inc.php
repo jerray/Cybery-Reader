@@ -12,18 +12,6 @@ $routes = array(
 	'/^play\/action\/(.*)/' => array(
 		'PlayGround',
 		ACTIONS_ROOT . 'Play.class.php',
-    ),
-	'/^subscribe\/$/' => array(
-	    'Subscribe',
-	    ACTIONS_ROOT . 'subscribe.class.php',
-	),
-	'/^home\/(.*)/' => array(
-	    'Home',
-	    ACTIONS_ROOT . 'main.class.php',
-	),
-	'/^login\/(.*)/' => array(
-	    'Login',
-	    ACTIONS_ROOT . 'login.class.php',
 	),
 	'/^regist\/step1\/$/' => array(
 		'RegisterStepOne',
@@ -43,7 +31,7 @@ $routes = array(
 	),
 	'/^subscribe\/$/' => array(
 		'Subscribe',
-		ACTIONS_ROOT . 'suscribe.class.php',
+		ACTIONS_ROOT . 'subscribe.class.php',
 	),
 	'/^home\/(.*)/' => array(
 		'Home',
