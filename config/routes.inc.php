@@ -13,6 +13,34 @@ $routes = array(
 		'PlayGround',
 		ACTIONS_ROOT . 'Play.class.php',
 	),
+	'/^regist\/step1\/$/' => array(
+		'RegisterStepOne',
+		ACTIONS_ROOT . 'regist_email.class.php',
+	),
+	'/^regist\/step2\/$/' => array(
+		'RegisterStepTwo',
+		ACTIONS_ROOT . 'regist_info.class.php',
+	),
+	'/^regist\/step3\/$/' => array(
+		'RegisterStepThree',
+		ACTIONS_ROOT . 'regist_finish.class.php',
+	),
+	'/^regist\/confirm\/(.*)/' => array(
+		'Confirm',
+		ACTIONS_ROOT . 'confirm.class.php',
+	),
+	'/^subscribe\/$/' => array(
+		'Subscribe',
+		ACTIONS_ROOT . 'suscribe.class.php',
+	),
+	'/^home\/(.*)/' => array(
+		'Home',
+		ACTIONS_ROOT . 'main.class.php',
+	),
+	'/^login\/(.*)/' => array(
+		'Login',
+		ACTIONS_ROOT . 'login.class.php',
+	),
 );
 
 ?>
