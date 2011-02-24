@@ -24,10 +24,18 @@ foreach($routes as $pattern => $config)
 
 				if(method_exists($act, 'execute')){
 					$act->execute(null);
+					die();
+				}else{
+					die('action class invalid');
 				}
+			}else{
+				die('action class not exist');
 			}
+		}else{
+			die('action file not exist');
 		}
 	}
 }
+die('action not exist');
 
 ?>

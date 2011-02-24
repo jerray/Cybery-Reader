@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html profile="http://gmpg.org/xfn/11">
+	<head>
+		<title>
+			Register--Cybery Reader
+		</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<script type="text/javascript" src="jquery.js"></script>
+		<link rel="stylesheet" href="../../static/css/style_r.css" type="text/css" />
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("p.remind").click(function(){
+					$("#message").hide();
+					$("#messagetext").show();
+				});
+				$("img.delete").click(function(){
+					$("#message").hide();
+					$("#messagetext").hide();
+				});
+			});
+		</script>
+	</head>
+
+	<body>
+		<div id="header">
+			<img src="../../static/images/logo.png" class="logo" />
+			<img src="../../static/images/see.png" class="logonote"/>
+		</div>
+		<{if $ismsg}>
+		<div id="message">
+			<img src="../../static/images/butexit.gif" class="delete" /><p class="remind"><{$msg}></p>
+		</div>
+		
+		<div id="messagetext">
+			<img src="../../static/images/butexit.gif" class="delete" /><p class="message"><{$msg}></p>
+		</div>
+		<{/if}>
+		<div id="context">
+			<img src="../../static/images/step_3.png" class="step" />
+			<form method="post">
+				<input class="realname" type="text" name="alias" value="请输入您的真实姓名"  onMouseOver="this.focus()" onMouseOut="if(this.value=='')this.value='请输入您的真实姓名';" onFocus="this.select()" onClick="if(this.value=='请输入您的真实姓名')this.value=''">
+			<!--添加提交按钮-->
+			<input type="image" name = "step2" src="../../static/images/complete.png" class = "command"/>
+			<!--添加结束-->
+			</form>
+
+		</div>
+
+	</body>
+</html>

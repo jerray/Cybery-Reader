@@ -75,6 +75,21 @@ img.command_1{
 	margin-top: -30px;
         margin-right: 40px;
 }
+input.command{
+        float:right;
+	width:112px;
+	height:34px;
+	margin-top: 60px;
+        margin-right: 40px;
+
+}
+input.command_1{
+	float:right;
+	width:112px;
+	height:34px;
+	margin-top: -30px;
+        margin-right: 40px;
+}
 img.title{
 	clear:both;
 	margin: 10px;
