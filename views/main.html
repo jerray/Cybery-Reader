@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html profile="http://gmpg.org/xfn/11">
+	<head>
+		<title>
+			Cybery Reader
+		</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+		<script type="text/javascript" src="../static/jquery.js"></script>
+		<link rel="stylesheet" href="../static/css/style.css" type="text/css" />
+		<script type="text/javascript">
+			$(document).ready(function(){
+			    <{ if $isitem }>
+			    <{ loop $items $item}>
+				$("h3.flip<{ $item["guid"] }>").click(function(){
+					$("#panel<{ $item["guid"] }>").slideToggle("slow");
+				});
+				$("img.star<{ $item["guid"] }>").click(function(){
+					 $("img.star<{ $item["guid"] }>").attr("src","../static/images/starfull.png");
+				});
+				<{ /loop }>
+				<{ /if }>
+				$("h2.flip").click(function(){
+					$("#panall").slideToggle("slow");
+				});
+				$("img.myfeed").click(function(){
+                                        $("img.myfeed").attr("src","../static/images/butplus.gif");
+					$("ul.myfeed").slideToggle("slow");
+				});
+				$("img.hotfeed").click(function(){
+                                        $("img.hotfeed").attr("src","../static/images/butplus.gif");
+					$("ul.hotfeed").slideToggle("slow");
+				});
+				$("p.remind").click(function(){
+					$("#message").hide();
+					$("#messagetext").show();
+				});
+				$("img.delete").click(function(){
+					$("#message").hide();
+					$("#messagetext").hide();
+				});
+				
+			});
+		</script>
+	</head>
+
+	<body>
+
+	<div id="header">
+			<img src="../static/images/logo.png" class="logo" />
+			<img src="../static/images/see.png" class="logonote"/>
+	</div>
+    <{ if $ismsg}>
+	<div id="message">
+		<img src="../static/images/butexit.gif" class="delete" /><p class="remind"><{ $msg }></p>
+	</div>
+
+	<div id="messagetext">
+		<img src="../static/images/butexit.gif" class="delete" /><p class="message"><{ $msg }></p>
+	</div>
+    <{ /if }>
+	<div id="context">
+
+	<div id="leftsidebar">
+	<ul>
+		<li><img src="../static/images/butsub.gif" class="myfeed" />我的Feed
+		    <ul class="myfeed">
+		    <{ if $isfeed }>
+		    <{ loop $myfeed $row }>
+		    <li class="choose"><a href="?url=<{ $row["url"] }>"><{ $row["title"] }><{ if $row["unread"] }>(<{ $row["unread"] }>)<{ /if }></a></li>
+		    <{ /loop }>
+		    <{ /if }>
+         	</ul>
+		</li> 
+
+		<li><img src="../static/images/butsub.gif" class="hotfeed" />热门Feed
+		<ul class="hotfeed">
+		    <li class="choose"><a href="">非常日报(32)</a></li>
+		    <li class="choose"><a href="">河蟹娱乐(64)</a></li>
+		    <li class="choose"><a href="">地理时间(128)</a></li>
+		    <li class="choose"><a href="">我们爱讲冷笑话(16)</a></li>
+		    <li class="choose"><a href="">煎蛋(8)</a></li>
+         	</ul>
+		</li>
+	</ul>
+	</div>
+
+	<div id="rightsidebar">
+		<p class="rightitle"><{ $ctitle }></p>
+		<{ if $iscomments}>
+		<ul>
+		<{ loop $comments $comment}>
+			<li class="rightext"><a href="" class="rightext"><{ $comment["alias"] }></a><{ $comment["content"] }></li>
+	    <{ /loop }>
+		</ul>
+		<{ /if }>
+	</div>
+
+	<div id="main">
+	    <h2 class="flip"><p><{ $feedname }></p></h2>
+	    <div id="panall">
+	    <{ if $isitem }>
+	    <{ loop $items $item}>
+	        <div>
+	            <img src="../static/images/starblank.png" class="star<{ $item["guid"] }>" />
+	            <h3 class="flip<{ $item["guid"] }>"><{ $item["title"] }></h3>
+	            <div id="panel<{ $item["guid"] }>">
+	            <{ if $item["content"]}>
+	                <{ $item["content"] }>
+	            <{ else }>
+	                <{ $item["description"] }>
+	            <{ /if }>
+	            </div>
+            </div>
+        <{ /loop }>
+        <{ /if }>
+        </div>
+    </div>	
+    </div>
+	
+       <div id="footer">
+		@ 2011 CopyRight 
+	</div>
+	</body>
+</html>
