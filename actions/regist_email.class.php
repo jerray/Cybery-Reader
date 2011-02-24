@@ -30,7 +30,7 @@ class regist_email extends Action
 				$sender = "glovenone@163.com";	//发件人，一般与登录smtp服务器的用户名相同
 				$smtp = new smtp($smtpserver, $port, true, $smtpuser, $smtppwd, $sender);
 				//$smtp->debug = true;		//显示一些发送信息
-				$to = "glovenone@gmail.com";	//收件人
+				$to = "$email";	//收件人
 				$subject = "获取激活码";
 				$body = '<html><body>'.'注册成功。您的激活码是：'.'<a href="'.$url.'" target="_blank">'.$url.'</a><br>'.'请点击该地址，激活您的用户！'.'</body></html>';
 				$send = $smtp->sendmail($to, $sender, $subject, $body, $mailtype);

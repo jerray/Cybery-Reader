@@ -5,22 +5,31 @@
 			Cybery Reader
 		</title>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-		<script type="text/javascript" src="jquery.js"></script>
-		<link rel="stylesheet" href="./css/style.css" type="text/css" />
+
+		<script type="text/javascript" src="../static/jquery.js"></script>
+		<link rel="stylesheet" href="../static/css/style.css" type="text/css" />
 		<script type="text/javascript">
 			$(document).ready(function(){
-				$("h3.flip").click(function(){
-					$("#panel").slideToggle("slow");
+			    <{ if $isitem }>
+			    <{ loop $items $item}>
+				$("h3.flip<{ $item["guid"] }>").click(function(){
+					$("#panel<{ $item["guid"] }>").slideToggle("slow");
 				});
+				$("img.star<{ $item["guid"] }>").click(function(){
+					 $("img.star<{ $item["guid"] }>").attr("src","../static/images/starfull.png");
+				});
+				<{ /loop }>
+				<{ /if }>
 				$("h2.flip").click(function(){
 					$("#panall").slideToggle("slow");
 				});
 				$("img.myfeed").click(function(){
-                                        $("img.myfeed").attr("src","images/butplus.gif");
+
+                                        $("img.myfeed").attr("src","../static/images/butplus.gif");
 					$("ul.myfeed").slideToggle("slow");
 				});
 				$("img.hotfeed").click(function(){
-                                        $("img.hotfeed").attr("src","images/butplus.gif");
+                                        $("img.hotfeed").attr("src","../static/images/butplus.gif");
 					$("ul.hotfeed").slideToggle("slow");
 				});
 				$("p.remind").click(function(){
@@ -31,9 +40,6 @@
 					$("#message").hide();
 					$("#messagetext").hide();
 				});
-				$("img.star").click(function(){
-					 $("img.star").attr("src","images/starblank.png");
-				});
 			});
 		</script>
 	</head>
@@ -41,34 +47,35 @@
 	<body>
 
 	<div id="header">
-			<img src="images/logo.png" class="logo" />
-			<img src="images/see.png" class="logonote"/>
+			<img src="../static/images/logo.png" class="logo" />
+			<img src="../static/images/see.png" class="logonote"/>
 	</div>
-
+    <{ if $ismsg}>
 	<div id="message">
-		<img src="images/butexit.gif" class="delete" /><p class="remind">这里是提示信息。</p>
+		<img src="../static/images/butexit.gif" class="delete" /><p class="remind"><{ $msg }></p>
 	</div>
 
 	<div id="messagetext">
-		<img src="images/butexit.gif" class="delete" /><p class="message">这里是提示信息。</p>
+		<img src="../static/images/butexit.gif" class="delete" /><p class="message"><{ $msg }></p>
 	</div>
+    <{ /if }>
 
 	<div id="context">
 
 	<div id="leftsidebar">
 	<ul>
-		<li><img src="images/butsub.gif" class="myfeed" />我的Feed
-		<ul class="myfeed">
-		    <li class="choose"><a href="">非常日报(32)</a></li>
-		    <li class="choose"><a href="">河蟹娱乐(64)</a></li>
-		    <li class="choose"><a href="">地理时间(128)</a></li>
-		    <li class="choose"><a href="">外刊IT评论(4)</a></li>
-		    <li class="choose"><a href="">我们爱讲冷笑话(16)</a></li>
-		    <li class="choose"><a href="">煎蛋(8)</a></li>
+
+		<li><img src="../static/images/butsub.gif" class="myfeed" />我的Feed
+		    <ul class="myfeed">
+		    <{ if $isfeed }>
+		    <{ loop $myfeed $row }>
+		    <li class="choose"><a href="?url=<{ $row["url"] }>"><{ $row["title"] }><{ if $row["unread"] }>(<{ $row["unread"] }>)<{ /if }></a></li>
+		    <{ /loop }>
+		    <{ /if }>
          	</ul>
 		</li> 
 
-		<li><img src="images/butsub.gif" class="hotfeed" />热门Feed
+		<li><img src="../static/images/butsub.gif" class="hotfeed" />热门Feed
 		<ul class="hotfeed">
 		    <li class="choose"><a href="">非常日报(32)</a></li>
 		    <li class="choose"><a href="">河蟹娱乐(64)</a></li>
@@ -81,51 +88,38 @@
 	</div>
 
 	<div id="rightsidebar">
-		<p class="rightitle">就像你刚学会编程那样写程序</p>
+
+		<p class="rightitle"><{ $ctitle }></p>
+		<{ if $iscomments}>
 		<ul>
-			<li class="rightext"><a href="" class="rightext">The5fire</a> : 说得很对呀，有时候开发人员往往会舍本逐末，把焦点放到程序代码的扩展性上，而不是用户体验</li>
-			<li class="rightext"><a href="" class="rightext">lfsfxy9 </a> : 开发人员应该更加细分一些，职责划分更细一些。哪些只是为实现功能而做的，哪些是考虑界面，系统交互性，可用性的。</li>
+		<{ loop $comments $comment}>
+			<li class="rightext"><a href="" class="rightext"><{ $comment["alias"] }></a><{ $comment["content"] }></li>
+	    <{ /loop }>
 		</ul>
+		<{ /if }>
 	</div>
 
 	<div id="main">
-	<h2 class="flip"><p>外刊IT评论</p></h2>
-	<div id="panall">
-	<img src="images/starblank.png" class="star" /><h3>漫画：如何写出好代码?</h3>
-	<img src="images/starfull.png" class="star" /><h3>去创业还是去环游世界?</h3>
-	<img src="images/starblank.png" class="star" /><h3>你的架构很烂，但我并不在意</h3>
-	<img src="images/starblank.png" class="star" /><h3>史蒂夫·乔布斯很懂团队建设</h3>
-	<img src="images/starblank.png" class="star" /><h3>我听到过的最精彩的一个软件纠错故事</h3>
-	<img src="images/starfull.png" class="star" /><h3 class="flip">就像你刚学会编程那样写程序</h3>
-
-	<div id="panel">
-	<p>就像你刚学会编程那样写程序</p>
-	<p>作者：某某</P>
-	<img src="images/howtowritecode.jpg" class="im" />
-	<p>我正在读 Do More Faster 这本书，书中更多的是给 TechStars 创业孵化公司做广告，但仍然值得一读。让我深有感触的是，书中提到有几个人，他们通过了审查，成功的 — 至少是获得了他们的启动资金，但他们并不懂编程。他们开始学编程，以此来实现他们的创业梦想。</p>
-	<p>想想这些。就好像是先想出来一首歌，然后去学习如何使用乐器，这样来把旋律变成真正的歌。我猜测这样的学习过程会让大多数的音乐家感到惊愕，但这种惊愕并不能表明这种做法不明智，或最终不会有好结果。毕竟，你也看到了，有众多的乐队，虽然没有音乐理论方面的造诣的帮助，仍然取得了成功。</p>
-	<p>我在中学时就知道如何编程了。当时参加了一个“BASIC简介”的课程，有个作业是在只有16位色、低分辨率的Apple II 显示器上做出一个具有视觉效果的程序。我迅速的想出一些算法，让它按屏幕坐标循环画线和变换颜色。整个编写、调试过程我只用了半个小时，我完成了。</p>
-	<p>我严重的低估了人们的创造才能。</p>
-	<p>有个家伙在他的令人惊异的示范程序里使用了各种动画效果和减色图片。我要说的是令人惊异的东西，例如，里面有个骷髅，血从骷髅的眼睛里流出，流到屏幕底部，像是一个水池似的涨起来。而这只是他的作业中的一个片段。我目瞪口呆。很显然，我不是我想像中的那种艺高胆大的程序员。</p>
-	<p>我最终看到了他程序里的BASIC清单。他使用几百行、几百行的程序语句来变换颜色、画点和线。没有循环，没有变量。为了让血动起来，他绘制红色像素，等待，然后再其下画另外一滴。</p>
-	<p>所有的坐标都是写死的。他是如何跟踪流动的轨迹的呢？他使用一张纸，在纸上模拟，然后一幕幕复制到屏幕上。</p>
-	<p>这让我认识到了我被以前的经验毒害了。我只想到了编程，如何写出简洁干净的代码。而这个家伙在写他的骷髅程序时根本不担心这个。他不注意程序会写成什么样子或如何去维护。他只想着用一种方法来表现他的视觉效果。</p>
-	<p>这是一个很容易被人忘记或忽略的教训。在开发时，既要关注你做的东西给最终用户的体验，同时又要注意用来表现这些用户体验的程序的架构，这是极其困难的事。也许根本不可能。</p>
-	<p>我想这唯一的解决办法就是放弃后者。用直接但看起来滑稽的代码，就像是刚学会编程那样，跳出樊笼，摘掉扣在代码上的各种软件工程技术的大帽子 — 除非你想成为真正的软件工程师，而非事关用户体验的设计师。</p>
-	</div>
-
-	<img src="images/starblank.png" class="star" /><h3>漫画：你能帮我把这个文件重命名吗?</h3>
-	<img src="images/starblank.png" class="star" /><h3>成功不寻常</h3>
-	<img src="images/starblank.png" class="star" /><h3>交易</h3>
-	<img src="images/starblank.png" class="star" /><h3>"测试是浪费时间，我的程序肯定没问题"</h3>
-	<img src="images/starblank.png" class="star" /><h3>愚蠢且能干</h3>
-        <img src="images/starblank.png" class="star" /><h3>让能者不多得</h3>
-	<img src="images/starblank.png" class="star" /><h3>改良程序的11技巧</h3>
-	<img src="images/starblank.png" class="star" /><h3>你不是真的想要100万</h3>
-        <img src="images/starblank.png" class="star" /><h3>一个关于两个国家互派间谍的问题</p>
+	    <h2 class="flip"><p><{ $feedname }></p></h2>
+	    <div id="panall">
+	    <{ if $isitem }>
+	    <{ loop $items $item}>
+	        <div>
+	            <img src="../static/images/starblank.png" class="star<{ $item["guid"] }>" />
+	            <h3 class="flip<{ $item["guid"] }>"><{ $item["title"] }></h3>
+	            <div id="panel<{ $item["guid"] }>">
+	            <{ if $item["content"]}>
+	                <{ $item["content"] }>
+	            <{ else }>
+	                <{ $item["description"] }>
+	            <{ /if }>
+	            </div>
+            </div>
+        <{ /loop }>
+        <{ /if }>
         </div>
-        </div>	
-        </div>
+    </div>	
+    </div>
 	
        <div id="footer">
 		@ 2011 CopyRight 
