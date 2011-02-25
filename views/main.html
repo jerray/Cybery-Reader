@@ -111,9 +111,11 @@
 	    <{ if $isitem }>
 	    <{ loop $items $item}>
 	        <div>
-	            <img src="../static/images/starblank.png" class="star<{ $item["guid"] }>" />
-	            <h3 class="flip<{ $item["guid"] }>"><{ $item["title"] }></h3>
-	            <div id="panel<{ $item["guid"] }>">
+		    <h3 class="flip flip<{ $item["guid"] }>">
+			    <img src="../static/images/starblank.png" class="star star<{ $item["guid"] }>" />
+			    <{ $item["title"] }>
+		    </h3>
+	            <div id="panel<{ $item["guid"] }>" class="panel" style="display:none;">
 	            <{ if $item["content"]}>
 	                <{ $item["content"] }>
 	            <{ else }>

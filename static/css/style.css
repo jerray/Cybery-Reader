@@ -2,8 +2,14 @@
 	margin: 0;
 	padding: 0;
 }
+body{
+	font-size:12px;
+}
 img{
-        float:left;	
+	border:none;
+}
+a img{
+	border:none;
 }
 a{
 	color: black;
@@ -144,14 +150,23 @@ img.star{
 }
 .flip
 {
-	border-color:gray;
-	border-style:solid;
-	border-width:thin;
-	border-left-style:none;
+	margin:0;
+	border-top:1px solid #ccc;
+	padding:5px 8px;
+	clear:both;
 }
-#panel
+.panel
 {
-	margin-left: 10px;
+	padding:10px 15px;
+	border-top:1px solid #ccc;
+}
+.panel p{
+	padding:8px 0;
+}
+.panel p img{
+	background:#eee;
+	padding:3px;
+	margin:0 15px 15px 0;
 }
 .useraction ul, .useraction li
 {
