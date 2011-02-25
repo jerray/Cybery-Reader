@@ -153,4 +153,21 @@ img.star{
 {
 	margin-left: 10px;
 }
-
+.useraction ul, .useraction li
+{
+    list-style-type: none;
+    display:inline;
+}
+.useraction a:link, .useraction a:visited
+{
+    color:#fff;
+}
+.useraction a:hover
+{
+    color:#00FFFF;
+}
+div.useraction
+{
+    float: right;
+    margin: 5px 10px 0px 0px;
+}

@@ -9,23 +9,32 @@ class regist_finish extends Action
 			'ismsg' => FALSE,
 			'msg' => NULL,
 		);
-		$alias = $_POST['alias'];
 		$id = $_SESSION['user']['id'];
-		$sql = "select * from users where id = '$id'";
-		$_SESSION['user'] = $sql;
-		if(isset($alias))
+
+		if(isset($_POST['alias']))
 		{
+		    $alias = $_POST['alias'];
 			//check
 			//////
 			$upd = $db->update('users', $id, array('alias' => $alias));
 			if($upd)
 			{
-			//	header('Location:/cybery-reader/main/');
+			    $user = $db->fetch('users', 'id', $id);
+			    if ($user)
+			    {
+			        $_SESSION['user'] = $user;
+				    header('Location:../../home/');
+				}
+				else
+				{
+				    $data['ismsg'] = 'TRUE';
+				    $data['msg'] = '糟糕，好像哪里出错了！';
+				}
 			}
 			else
 			{
 				$data['ismsg'] = 'TRUE';
-				$data['msg'] = 'Error';
+				$data['msg'] = '糟糕，好像哪里出错了！';
 			}
 		}
 		$tpl->render('register-step-3.html', $data);

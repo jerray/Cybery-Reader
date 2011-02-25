@@ -66,7 +66,7 @@ img.step{
 }
 img.command{
         float:right;
-	margin-top: 60px;
+	margin-top: 20px;
         margin-right: 40px;
 
 }
@@ -79,7 +79,7 @@ input.command{
         float:right;
 	width:112px;
 	height:34px;
-	margin-top: 60px;
+	margin-top: 0px;
         margin-right: 40px;
 
 }
@@ -88,6 +88,13 @@ input.command_1{
 	width:112px;
 	height:34px;
 	margin-top: -30px;
+        margin-right: 40px;
+}
+input.command_s{
+	float:right;
+	width:112px;
+	height:34px;
+	margin-top: 55px;
         margin-right: 40px;
 }
 img.title{
@@ -115,4 +122,26 @@ input.realname{
 }
 input.address{
 	margin-top: 60px;
+}
+.useraction ul, .useraction li
+{
+    list-style-type: none;
+    display:inline;
+}
+.useraction a
+{
+    text-decoration: none;
+}
+.useraction a:link, .useraction a:visited
+{
+    color:#fff;
+}
+.useraction a:hover
+{
+    color:#00FFFF;
+}
+div.useraction
+{
+    float: right;
+    margin: 5px 10px 0px 0px;
 }

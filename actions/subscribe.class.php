@@ -5,7 +5,7 @@ class Subscribe extends Action
     public function execute($context)
     {
         global $db, $tpl;
-        if (!isset($_SESSION['user']))
+        if (!isset($_SESSION['user']) || !isset($_SESSION['user']['group']) || $_SESSION['user']['group'] == 0)
         {
 		    header('location:../login/?user=false');
 		}

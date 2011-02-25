@@ -41,6 +41,10 @@ $routes = array(
 		'Login',
 		ACTIONS_ROOT . 'login.class.php',
 	),
+	'/^logout\/$/' => array(
+		'Logout',
+		ACTIONS_ROOT . 'logout.class.php',
+	),
 );
 
 ?>

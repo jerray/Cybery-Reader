@@ -8,7 +8,7 @@ class Login extends Action
         $data['ismsg'] = FALSE;
 		$data['msg'] = NULL;
 		
-        if (isset($_SESSION['user']))
+        if (isset($_SESSION['user']) && isset($_SESSION['user']['group']) && $_SESSION['user']['group'] != 0)
         {
 		    header('location:../home/');
 		}
@@ -30,7 +30,7 @@ class Login extends Action
 		        if ($result)
 		        {
 		            $_SESSION['user'] = $result[0];
-		            header('location:../home/');
+		            header('location:../home/?user=login');
 		        }
 		        else
 		        {

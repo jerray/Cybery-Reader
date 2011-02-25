@@ -5,7 +5,7 @@ class Main extends Action
 	public function execute($context)
 	{
 		global $db, $tpl;
-		if (!isset($_SESSION['user']))
+		if (!isset($_SESSION['user']) || !isset($_SESSION['user']['group']) || $_SESSION['user']['group'] == 0)
         {
             header('location:../login/?user=false');
 		}
@@ -95,6 +95,12 @@ class Main extends Action
             {
                 $data['msg'] = '糟糕，好像哪里出错了！';
             }
+        }
+        
+        if(isset($_GET['user']) && $_GET['user']=='login')
+        {
+            $data['ismsg'] = TRUE;
+            $data['msg'] = $_SESSION['user']['alias'].'，欢迎回来。';
         }
 
         $tpl->render('main.html', $data);

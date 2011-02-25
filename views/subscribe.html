@@ -25,6 +25,12 @@
 		<div id="header">
 			<img src="../static/images/logo.png" class="logo" />
 			<img src="../static/images/see.png" class="logonote"/>
+			<div class="useraction">
+			<ul>
+			    <li><a href="../home/" >返回主页</a></li>
+			    <li><a href="../logout/" >退出</a></li>
+			</ul>
+		    </div>
 		</div>
         <{ if $ismsg }>
 		<div id="message">
@@ -41,7 +47,7 @@
 			    <table>
 			    <tr>
 				<td><input class="address" type="text" name="address" value="请输入您的地址"  onMouseOver="this.focus()" onMouseOut="if(this.value=='')this.value='请输入您的地址';" onFocus="this.select()" onClick="if(this.value=='请输入您的地址')this.value=''" /></td>
-				<td><input type="image" value="" class="command" src="../static/images/subscribe.png" /></td>
+				<td><input type="image" value="" class="command_s" src="../static/images/subscribe.png" /></td>
 				</tr>
 				</table>
 			</form>

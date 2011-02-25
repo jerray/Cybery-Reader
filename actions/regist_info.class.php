@@ -14,15 +14,23 @@ class regist_info extends Action
 			$password = $_POST['password'];
 			//check
 			///////
-			$id = $_SESSION['user']['id'];
-			$password = sha1($password);
-			$upd = $db->update('users', $id, array('username' => $username, 'password' => $password));
-			if($upd)
-				header('Location:/cybery-reader/regist/step3/');
+			if ($db->fetch('user', 'username', $username))
+			{
+			    $data['ismsg'] = 'TRUE';
+				$data['msg'] = '用户名被占用';	
+			}
 			else
 			{
-				$data['ismsg'] = 'TRUE';
-				$data['msg'] = 'Error';	
+			    $id = $_SESSION['user']['id'];
+			    $password = sha1($password);
+			    $upd = $db->update('users', $id, array('username' => $username, 'password' => $password));
+			    if($upd)
+				    header('Location:/cybery-reader/regist/step3/');
+			    else
+			    {
+				    $data['ismsg'] = 'TRUE';
+				    $data['msg'] = '糟糕，好像哪里出错了！';	
+			    }
 			}
 		}
 		$tpl->render('register-step-2.html', $data);
