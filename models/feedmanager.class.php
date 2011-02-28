@@ -10,7 +10,7 @@ class FeedManager
 {
     private $uid;
     private $fid;
-    private $feeds;
+    private $ismine = TRUE;
     private $db = NULL;
 
     function __construct($uid = NULL)
@@ -22,7 +22,6 @@ class FeedManager
             $this->db = $db;
             $this->db->queryf('SET NAMES \'UTF8\'');
         }
-        $this->feeds = NULL;
         $this->items = NULL;
         $this->fid = NULL;
     }
@@ -30,31 +29,60 @@ class FeedManager
     //获取用户订阅列表
     //返回一个关联数组
     //数组各个键：id,title,link,description
-    function get_feeds()
+    const MYFEED = 1;
+    const FAVFEED = 2;
+    function get_feeds($type = FeedManager::MYFEED)
     {
-        $this->feeds = $this->db->queryf(
-            "SELECT f.* FROM feeds AS f
-            LEFT JOIN userfeed AS uf ON f.id = uf.fid
-            WHERE uf.uid = %d ORDER BY f.id ASC", $this->uid);
-        if (!$this->feeds)
+        switch($type)
+        {
+            case FeedManager::MYFEED:
+                $feeds = $this->db->queryf(
+                    "SELECT f.* FROM feeds AS f
+                    LEFT JOIN userfeed AS uf ON f.id = uf.fid
+                    WHERE uf.uid = %d ORDER BY f.id ASC", $this->uid);
+                break;
+            case FeedManager::FAVFEED:
+                $feeds = $this->db->queryf(
+                    "SELECT f.* FROM feeds AS f
+                     ORDER BY f.feednum DESC LIMIT 0,9");
+                break;
+        }
+        if (!$feeds)
             return FALSE;
-        return $this->feeds;
+        return $feeds;
     }
     
     //设定当前使用的Feed编号
     function select_feed($fid)
     {
         $this->fid = $fid;
+        if($this->db->get('userfeed', "`uid`=$this->uid AND `fid`=$fid"))
+            $this->ismine = TRUE;
+        else
+            $this->ismine = FALSE;
     }
 
     //获取编号为$fid的Feed下的所有文章
     function get_items()
     {
-        $items = $this->db->queryf(
-            "SELECT i.*, ui.read, ui.share, ui.fav
-            FROM items AS i LEFT JOIN useritem AS ui ON ui.uid = %d 
-            WHERE i.id = ui.iid AND i.fid = %d 
-            ORDER BY i.id DESC", $this->uid, $this->fid);
+        if($this->ismine)
+        {
+            $items = $this->db->queryf(
+                "SELECT i.*, ui.read, ui.share, ui.fav
+                FROM items AS i LEFT JOIN useritem AS ui ON ui.uid = %d 
+                WHERE i.id = ui.iid AND i.fid = %d 
+                ORDER BY i.pubdate DESC", $this->uid, $this->fid
+            );
+        }
+        else
+        {
+            $items = $this->db->queryf(
+                "SELECT i.* 
+                FROM items AS i
+                WHERE i.fid = %d 
+                ORDER BY i.pubdate DESC", $this->fid
+            );
+        }
         if (!$items)
             return FALSE;
         return $items;
@@ -91,13 +119,14 @@ class FeedManager
         if ($feed) //如果数据库中存储了该Feed
         {
             $fid = $feed['id'];
+            $fnum = $feed['feednum'];
 
             $condition = "`uid`=$this->uid and `fid`=$fid";
             if ($this->db->get('userfeed', $condition))
             {
                 return FALSE;
             }
-            return $this->link_feed($fid);
+            return $this->link_feed($fid, $fnum);
         }
         else //如果数据库中不存在该Feed
             return $this->new_feed($url);
@@ -118,6 +147,7 @@ class FeedManager
                 'title' => $tpc['title']['value'],
                 'description' => $tpc['description']['value'],
                 'lastBuildDate' => strtotime($tpc['lastBuildDate']['value']),
+                'feednum' => 1,
             );
             $fid = $this->db->insert('feeds', $channel);
             if (!$fid)
@@ -136,6 +166,7 @@ class FeedManager
                     'title' => $tpi['title']['value'],
                     'link' => $tpi['link']['value'],
                     'guid' => sha1($tpi['guid']['value']),
+                    'pubdate' => strtotime($tpi['pubDate']['value']),
                     'description' => $tpi['description']['value'],
                     'content' => $tpi['content:encoded']['value'],
                 );
@@ -159,8 +190,11 @@ class FeedManager
     }
 
     //将当前用户与编号为$fid的Feed建立关联
-    private function link_feed($fid)
+    private function link_feed($fid, $fnum)
     {
+        $fnum += 1;
+        $this->db->queryf("UPDATE `feeds` SET `feednum` = %d WHERE `id`=%d", $fnum, $fid);
+        
         $uf = array(
             'uid' => $this->uid,
             'fid' => $fid,
@@ -209,6 +243,11 @@ class FeedManager
     //取消该用户与编号为$fid的Feed的关联
     function unlink_feed($fid)
     {
+        $feed = $this->fetch('feeds', 'id', $fid);
+        $fnum = $feed['feednum'];
+        $fnum -= 1;
+        $this->db->queryf("UPDATE `feeds` SET `feednum` = %d WHERE `id`=%d", $fnum, $fid);
+        
         $result = $this->db->get('items', "`fid`=$fid");
         if (!$result)
             return FALSE;

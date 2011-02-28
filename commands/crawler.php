@@ -46,12 +46,13 @@ foreach($feeds as $r)
                 'title' => $ir['title']['value'],
                 'link' => $ir['link']['value'],
                 'guid' => sha1($ir['guid']['value']),
+                'pubdate' => strtotime($ir['pubDate']['value']),
                 'description' => $ir['description']['value'],
                 'content' => $ir['content:encoded']['value'],
             );
 
             //pubDate > $lct -- insert
-            if (strtotime($ir['pubDate']['value']) > $lbd)
+            if ($item['pubdate'] > $lbd)
             {
                 $db->insert('items', $item);
             }

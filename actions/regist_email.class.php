@@ -1,10 +1,19 @@
 <?php
+
 class regist_email extends Action
 {
+    private $PageData;
+    
+    private function setMessage( $message )
+    {
+        $this->PageData['ismsg'] = TRUE;
+        $this->PageData['msg'] = $message;
+    }
+    
 	public function execute($context)
 	{
 		global $db, $tpl;
-		$data = array(
+		$this->PageData = array(
 			'ismsg' => FALSE,
 			'msg' => NULL,
 		);
@@ -15,8 +24,7 @@ class regist_email extends Action
 			///////
 			if ($db->fetch('users', 'email', $email))
 			{
-			    $data['ismsg'] = TRUE;
-				$data['msg'] = '该邮箱已被占用';
+				$this->setMessage('该邮箱已被占用');
 		    }
 		    else
 		    {
@@ -42,19 +50,17 @@ class regist_email extends Action
 				    $body = '<html><body>'.'注册成功。您的激活码是：'.'<a href="'.$url.'" target="_blank">'.$url.'</a><br>'.'请点击该地址，激活您的用户！'.'</body></html>';
 				    $send = $smtp->sendmail($to, $sender, $subject, $body, $mailtype);
 
-                    $data['ismsg'] = TRUE;
-				    $data['msg'] = '认证邮件已发出，请检查邮箱。';
+				    $this->setMessage('认证邮件已发出，请检查邮箱。');
 		            //发送邮件结束
 				
 			    }
 			    else
 			    {
-				    $data['ismsg'] = TRUE;
-				    $data['msg'] = '糟糕，好像哪里出错了！';
+				    $this->setMessage('糟糕，好像哪里出错了！');
 			    }
 			}
 		}
-		$tpl->render('register-step-1.html', $data);
+		$tpl->render('register-step-1.html', $this->PageData);
 	}
 };
 

@@ -59,10 +59,7 @@ class CDB{
 		else
 			$sql = "SELECT * FROM `$table_name` WHERE `$field_name` = '$value';";
 		$result = $this->query($sql);
-		if($result)
-			return mysql_fetch_array($result);
-		else
-			return false;
+		return mysql_fetch_array($result);
 	}
 		
 	/*

@@ -73,7 +73,7 @@
 
 		<li><img src="../static/images/butsub.gif" class="myfeed" />我的Feed
 		    <ul class="myfeed">
-		    <{ if $isfeed }>
+		    <{ if $ismyfeed }>
 		    <{ loop $myfeed $row }>
 		    <li class="choose"><a href="?url=<{ $row["url"] }>"><{ $row["title"] }><{ if $row["unread"] }>(<{ $row["unread"] }>)<{ /if }></a></li>
 		    <{ /loop }>
@@ -83,11 +83,11 @@
 
 		<li><img src="../static/images/butsub.gif" class="hotfeed" />热门Feed
 		<ul class="hotfeed">
-		    <li class="choose"><a href="">非常日报(32)</a></li>
-		    <li class="choose"><a href="">河蟹娱乐(64)</a></li>
-		    <li class="choose"><a href="">地理时间(128)</a></li>
-		    <li class="choose"><a href="">我们爱讲冷笑话(16)</a></li>
-		    <li class="choose"><a href="">煎蛋(8)</a></li>
+		    <{ if $isfavfeed }>
+		    <{ loop $favfeed $row }>
+		    <li class="choose"><a href="?url=<{ $row["url"] }>"><{ $row["title"] }></a></li>
+		    <{ /loop }>
+		    <{ /if }>
          	</ul>
 		</li>
 	</ul>

@@ -2,9 +2,23 @@
 
 class Subscribe extends Action
 {
+    private $PageData;
+    
+    private function setMessage( $message )
+    {
+        $this->PageData['ismsg'] = TRUE;
+        $this->PageData['msg'] = $message;
+    }
+    
     public function execute($context)
     {
         global $db, $tpl;
+        
+        $this->PageData = array(
+            'ismsg' => FALSE,
+            'msg' => NULL,
+        );
+        
         if (!isset($_SESSION['user']) || !isset($_SESSION['user']['group']) || $_SESSION['user']['group'] == 0)
         {
 		    header('location:../login/?user=false');
@@ -14,23 +28,27 @@ class Subscribe extends Action
         {
             $url = $_POST['address'];
             $uid = $_SESSION['user']['id'];
-            $fm = new FeedManager($uid);
-            if ($fm->add_feed($url))
+            $feedManager = new FeedManager($uid);
+            if ($feedManager->add_feed($url))
             {
                 header('location:../home/?addr='.$url);
             }
+            elseif ($rss = $feedManager->find_feed($url))
+            {
+                $RSSMessage = '';
+                foreach($rss as $value)
+                {
+                    $RSSMessage .= '['.$value['title'].' | '.$value['url'].']';
+                }
+                $this->setMessage('您提交了一个含有RSS Feed的站点，请选择一个地址然后重新提交：'.$RSSMessage);
+            }
             else
             {
-                $data["ismsg"] = TRUE;
-                $data["msg"] = '无法识别的地址或您已订阅该Feed';
+                $this->setMessage('无法识别的地址或您已订阅该Feed');
             }
         }
-        else
-        {
-            $data["ismsg"] = FALSE;
-            $data["msg"] = NULL;          
-        }
-        $tpl->render('subscribe.html', $data);
+
+        $tpl->render('subscribe.html', $this->PageData);
     }
 };
 

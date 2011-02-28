@@ -1,10 +1,19 @@
 <?php
+
 class regist_info extends Action
 {
+    private $PageData;
+    
+    private function setMessage( $message )
+    {
+        $this->PageData['ismsg'] = TRUE;
+        $this->PageData['msg'] = $message;
+    }
+    
 	public function execute($context)
 	{
 		global $db, $tpl;
-		$data = array(
+		$this->PageData = array(
 			'ismsg' => FALSE,
 			'msg' => NULL,
 		);
@@ -14,10 +23,9 @@ class regist_info extends Action
 			$password = $_POST['password'];
 			//check
 			///////
-			if ($db->fetch('user', 'username', $username))
+			if ($db->fetch('users', 'username', $username))
 			{
-			    $data['ismsg'] = 'TRUE';
-				$data['msg'] = '用户名被占用';	
+				$this->setMessage('用户名被占用');	
 			}
 			else
 			{
@@ -28,12 +36,11 @@ class regist_info extends Action
 				    header('Location:/cybery-reader/regist/step3/');
 			    else
 			    {
-				    $data['ismsg'] = 'TRUE';
-				    $data['msg'] = '糟糕，好像哪里出错了！';	
+				    $this->setMessage('糟糕，好像哪里出错了！');
 			    }
 			}
 		}
-		$tpl->render('register-step-2.html', $data);
+		$tpl->render('register-step-2.html', $this->PageData);
 	}
 };
 
