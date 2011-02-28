@@ -13,8 +13,9 @@ a img{
 }
 a{
 	color: black;
+	text-decoration: none;
 }
-a:link{
+a:link, a:visited{
 	text-decoration: none;
 }
 a.rightext{
@@ -22,6 +23,7 @@ a.rightext{
 }
 a:hover{
 	color: #00FFFF;
+	text-decoration: none;
 }
 p{
 	margin: 5px;
@@ -173,6 +175,11 @@ img.star{
 {
     list-style-type: none;
     display:inline;
+	margin-left:5px;
+}
+.useraction a
+{
+    text-decoration: none;
 }
 .useraction a:link, .useraction a:visited
 {
