@@ -36,6 +36,6 @@ foreach($routes as $pattern => $config)
 		}
 	}
 }
-die('action not exist');
+header('location:home/');
 
 ?>
