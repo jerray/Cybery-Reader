@@ -73,7 +73,9 @@ class CDB{
 		$result = $this->query($sql);
 
 		$rs = array();
-		while( ($row = mysql_fetch_array($result)) )	$rs[] = $row;
+		if($result){
+			while( ($row = mysql_fetch_array($result)) )	$rs[] = $row;
+		}
 		return $rs;
 	}
 
