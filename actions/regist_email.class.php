@@ -33,20 +33,22 @@ class regist_email extends Action
 			    $_SESSION['user']['id'] = $id;
 			    if($id)
 			    {
-				    //send email
+				    ///send email
 				    //发送邮件开始
 				    include dirname(__FILE__) . '/../models/smtp.class.php';
 				    $url = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['SCRIPT_NAME']).'/regist/confirm/'.'?'.'id='.$id.'&'.'email='.$email.'&'.'secret='.$secret;
-				    $smtpserver = "smtp.163.com";	//smtp服务器地址
-				    $port = 25;	//端口号，一般为25
-				    $smtpuser = "glovenone@163.com";	//登录smtp服务器的用户名，及邮箱名
-				    $smtppwd = "dalong**229";	//登录smtp服务器的密码，及邮箱密码
+				    $smtpserver = "ssl://smtp.gmail.com";	//smtp服务器地址
+				    $port = 465;	//端口号，一般为25
+				    $smtpuser = "cybery.reader@gmail.com";	//登录smtp服务器的用户名，及邮箱名
+				    $smtppwd = "pureweber";	//登录smtp服务器的密码，及邮箱密码
 				    $mailtype = "HTML";	//邮件的类型，可以是TXT或HTML
-				    $sender = "glovenone@163.com";	//发件人，一般与登录smtp服务器的用户名相同
+				    $sender = "cybery.reader@gmail.com";	//发件人，一般与登录smtp服务器的用户名相同
 				    $smtp = new smtp($smtpserver, $port, true, $smtpuser, $smtppwd, $sender);
 				    //$smtp->debug = true;		//显示一些发送信息
 				    $to = "$email";	//收件人
-				    $subject = "获取激活码";
+				    $subject = "获取激活邮件";
+				    $subject = "=?UTF-8?B?".
+base64_encode($subject)."?=";
 				    $body = '<html><body>'.'注册成功。您的激活码是：'.'<a href="'.$url.'" target="_blank">'.$url.'</a><br>'.'请点击该地址，激活您的用户！'.'</body></html>';
 				    $send = $smtp->sendmail($to, $sender, $subject, $body, $mailtype);
 
