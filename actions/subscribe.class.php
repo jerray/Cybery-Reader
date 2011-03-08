@@ -17,6 +17,7 @@ class Subscribe extends Action
         $this->PageData = array(
             'ismsg' => FALSE,
             'msg' => NULL,
+			'onload' => '',
         );
         
         if (!isset($_SESSION['user']) || !isset($_SESSION['user']['group']) || $_SESSION['user']['group'] == 0)
@@ -26,12 +27,12 @@ class Subscribe extends Action
 		    
         if (isset($_POST['address']))
         {
-            $url = $_POST['address'];
+            $url = trim($_POST['address']);
             $uid = $_SESSION['user']['id'];
             $feedManager = new FeedManager($uid);
             if ($feedManager->add_feed($url))
             {
-                header('location:../home/?addr='.$url);
+				$this->PageData['onload'] = 'onload="window.opener.location.href=\'../home/?addr='.$url.'\';window.close()"';
             }
             elseif ($rss = $feedManager->find_feed($url))
             {

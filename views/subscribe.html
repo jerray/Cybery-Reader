@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html profile="http://gmpg.org/xfn/11">
+<html profile="http://gmpg.org/xfn/11" >
 	<head>
 		<title>
 			Subscribe--Cybery Reader
@@ -19,14 +19,13 @@
 				});
 			});
 		</script>
-		<{include ('ga.html')}>
 	</head>
 
-	<body>
+	<body <{ $onload }>>
 		<div id="header">
 			<div class="useraction">
 			<ul>
-			    <li><a href="../home/" >返回主页</a></li>
+			    <li><a href="../home/" onClick="window.close()">返回主页</a></li>
 			    <li><a href="../logout/" >退出</a></li>
 			</ul>
 		    </div>
