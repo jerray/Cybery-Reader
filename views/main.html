@@ -10,16 +10,6 @@
 		<link rel="stylesheet" href="../static/css/style.css" type="text/css" />
 		<script type="text/javascript">
 			$(document).ready(function(){
-			    <{ if $isitem }>
-			    <{ loop $items $item}>
-				$("h3.flip<{ $item["guid"] }>").click(function(){
-					$("#panel<{ $item["guid"] }>").slideToggle("slow");
-				});
-				$("img.star<{ $item["guid"] }>").click(function(){
-					 $("img.star<{ $item["guid"] }>").attr("src","../static/images/starfull.png");
-				});
-				<{ /loop }>
-				<{ /if }>
 				$("h2.flip").click(function(){
 					$("#panall").slideToggle("slow");
 				});
@@ -76,7 +66,7 @@
 		    <ul class="myfeed">
 		    <{ if $ismyfeed }>
 		    <{ loop $myfeed $row }>
-		    <li class="choose"><a href="?url=<{ $row["url"] }>"><{ $row["title"] }><{ if $row["unread"] }>(<{ $row["unread"] }>)<{ /if }></a></li>
+		    <li class="choose"><a href="#" url="<{ $row["url"] }>"><{ $row["title"] }><{ if $row["unread"] }>(<{ $row["unread"] }>)<{ /if }></a></li>
 		    <{ /loop }>
 		    <{ /if }>
          	</ul>
@@ -86,7 +76,7 @@
 		<ul class="hotfeed">
 		    <{ if $isfavfeed }>
 		    <{ loop $favfeed $row }>
-		    <li class="choose"><a href="?url=<{ $row["url"] }>"><{ $row["title"] }></a></li>
+		    <li class="choose"><a href="#" url="<{ $row["url"] }>"><{ $row["title"] }></a></li>
 		    <{ /loop }>
 		    <{ /if }>
          	</ul>
@@ -106,32 +96,24 @@
 		<{ /if }>
 	</div>
 
-	<div id="main">
-	    <h2 class="flip"><p><{ $feedname }></p></h2>
-	    <div id="panall">
-	    <{ if $isitem }>
-	    <{ loop $items $item}>
-	        <div>
-		    <h3 class="flip flip<{ $item["guid"] }>">
-			    <img src="../static/images/starblank.png" class="star star<{ $item["guid"] }>" />
-			    <{ $item["title"] }>
-		    </h3>
-	            <div id="panel<{ $item["guid"] }>" class="panel" style="display:none;">
-	            <{ if $item["content"]}>
-	                <{ $item["content"] }>
-	            <{ else }>
-	                <{ $item["description"] }>
-	            <{ /if }>
-	            </div>
-            </div>
-        <{ /loop }>
-        <{ /if }>
-        </div>
-    </div>	
+	<div id="main"></div>	
     </div>
 	
-       <div id="footer">
+    <div id="footer">
 		@ 2011 CopyRight 
 	</div>
+	<script type="text/javascript">
+	    $(".choose a").click(function(){
+	        var $link = $(this).attr("url");
+	        $("#posts").remove();
+	        $("#main").append("<div class=\"loading_posts\">正在加载文章，请稍候....</div>");
+            $.post("../post/", {
+                url : $link
+            }, function(data, textStatus){
+                $(".loading_posts").remove();
+                $("#main").append(data);
+            });
+	    });
+	</script>
 	</body>
 </html>

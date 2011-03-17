@@ -37,6 +37,10 @@ $routes = array(
 		'Home',
 		ACTIONS_ROOT . 'main.class.php',
 	),
+	'/^post\/(.*)/' => array(
+		'Post',
+		ACTIONS_ROOT . 'post.class.php',
+	),
 	'/^login\/(.*)/' => array(
 		'Login',
 		ACTIONS_ROOT . 'login.class.php',
