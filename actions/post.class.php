@@ -55,11 +55,11 @@ class Post extends Action
 <?php if($this->PageData['isitem']):?>
     <?php foreach($this->PageData['items'] as $item):?>
         <div>
-            <h3 class="flip flip<?php echo $item['guid']; ?>">
-                <img src="../static/images/starblank.png" class="star star<?php echo $item['guid']; ?>" />
+            <h3 class="flip">
+                <img src="../static/images/starblank.png" class="star" />
                 <?php echo $item["title"]; ?>
             </h3>
-            <div id="panel<?php echo $item['guid']; ?>" class="panel" style="display:none;">
+            <div id="panel" class="panel" style="display:none;">
                 <? if ($item["content"]):?>
                     <?php echo $item["content"]; ?>
                 <? else: ?>
@@ -72,16 +72,12 @@ class Post extends Action
 </div>
 </div>
 <script type="text/javascript">
-<?php if($this->PageData['isitem']):?>
-    <?php foreach($this->PageData['items'] as $item):?>
-		$("h3.flip<?php echo $item['guid']; ?>").click(function(){
-			$("#panel<?php echo $item['guid']; ?>").slideToggle("slow");
-		});
-		$("img.star<?php echo $item['guid']; ?>").click(function(){
-			$("img.star<?php echo $item['guid']; ?>").attr("src","../static/images/starfull.png");
-		});
-	<?php endforeach;?>
-<?php endif;?>
+	$("h3.flip").click(function(){
+		$(this).next("div.panel").slideToggle("slow");
+	});
+	$("img.star").click(function(){
+		$(this).attr("src","../static/images/starfull.png");
+	});
 </script>
 
 		<?php
