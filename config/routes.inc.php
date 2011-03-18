@@ -41,6 +41,10 @@ $routes = array(
 		'Post',
 		ACTIONS_ROOT . 'post.class.php',
 	),
+	'/^comment\/(.*)/' => array(
+		'Comment',
+		ACTIONS_ROOT . 'comment.class.php',
+	),
 	'/^login\/(.*)/' => array(
 		'Login',
 		ACTIONS_ROOT . 'login.class.php',

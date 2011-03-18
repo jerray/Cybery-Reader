@@ -1,0 +1,45 @@
+<{ if $show }>
+	<p><{ $ctitle }></p>
+	<table action="../comment/" method="POST">
+		<textarea name="comment" id="comment" cols="30" rows="4"></textarea>
+		<input type="submit" name="submit" id="addComment"/>
+	</table>
+	<div class="comments">
+		<ul>
+			<{ if $iscomments }>
+			<{ loop $comments $item }>
+				<li>
+					<div class="comment">
+						<em><{ $item["alias"] }>:</em><p><{ $item["content"] }></p>
+					</div>
+				</li>
+			<{ /loop }>
+			<{ /if }>
+		</ul>
+	</div>
+	<script type="text/javascript">
+	$("input#addComment").click(function(){
+		var $comment = $("#comment").val();
+		if($comment == ""){
+			alert("评论不能为空");
+			return false;
+		}
+		$.post("../comment/", {
+			comment : $comment
+		}, function(data, textStatus){
+			$("#comment").attr("value", "");
+			$("div.comments ul").append(data);
+		});
+		return false;
+	});
+</script>
+<{ /if }>
+
+<{ if $add }>
+	<li>
+		<div class="comment">
+			<em><{ $comments["alias"] }>:</em><p><{ $comments["content"] }></p>
+		</div>
+	</li>
+<{ /if }>
+
