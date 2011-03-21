@@ -6,6 +6,7 @@
 		</title>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 		<script type="text/javascript" src="../../static/jquery.js"></script>
+		<script type="text/javascript" src="../../static/jquery-validate/jquery.validate.js"></script>
 		<link rel="stylesheet" href="../../static/css/style_r.css" type="text/css" />
 		<script type="text/javascript">
 			$(document).ready(function(){
@@ -44,7 +45,7 @@
 		<div id="context">
 				<img src="../../static/images/step_1.png" class="step" />
 				<form method="post">
-					<input class="email" type="text" name="email" value="请输入您的Email"  onMouseOver="this.focus()" onMouseOut="if(this.value=='')this.value='请输入您的Email';" onFocus="this.select()" onClick="if(this.value=='请输入您的Email')this.value=''" />
+					<input id="email" class="email" type="text" name="email" value="请输入您的Email"  onMouseOver="this.focus()" onMouseOut="if(this.value=='')this.value='请输入您的Email';" onFocus="this.select()" onClick="if(this.value=='请输入您的Email')this.value=''" />
 			<!--添加提交按钮-->	
 			<input type="image" name = "step1" src="../../static/images/register.png" class = "command"/>
 			<!--添加结束-->
@@ -53,4 +54,20 @@
 		</div>
 
 	</body>
+<script type="text/javascript">
+
+	$('form :input').blur(function(){		//为表单元素添加失去焦点事件
+		var $parent = $(this).parent();		
+		$parent.find(".formtips").remove();	//删除以前的提示元素
+		if($(this).is('#email')){
+			if(this.value=="" || (this.value!="" && !/.+@.+\.[a-zA-Z]{2,4}$/.test(this.value))){
+				var errorMsg='输入正确email';
+				$parent.append('<span class="formtips onError">'+errorMsg+'</span>');
+			}else{
+				var okMsg='输入正确.';
+				$parent.append('<span class="formtips onSuccess">'+okMsg+'</span>');
+			}	
+		}	
+	})
+</script>
 </html>
