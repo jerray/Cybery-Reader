@@ -1,22 +1,23 @@
 <{ if $show }>
-	<p><{ $ctitle }></p>
+	<p class="rightitle"><{ $ctitle }></p>
 	<table action="../comment/" method="POST">
 		<textarea name="comment" id="comment" cols="30" rows="4"></textarea>
-		<input type="submit" name="submit" id="addComment"/>
+		<input type="submit" name="submit" id="addComment" value="提交评论" />
 	</table>
 	<div class="comments">
 		<ul>
 			<{ if $iscomments }>
 			<{ loop $comments $item }>
-				<li>
+				<li class="rightext">
 					<div class="comment">
-						<em><{ $item["alias"] }>:</em><p><{ $item["content"] }></p>
+						<em><{ $item["alias"] }></em> : <p><{ $item["content"] }></p>
 					</div>
 				</li>
 			<{ /loop }>
 			<{ /if }>
 		</ul>
 	</div>
+	
 	<script type="text/javascript">
 	$("input#addComment").click(function(){
 		var $comment = $("#comment").val();

@@ -3,17 +3,19 @@
 <div id="panall">
 <{ if $isitem }>
     <{ loop $items $item }>
-        <div>
+        <div class="post">
+			<img src="../static/images/starblank.png" class="star" />
             <h3 class="flip" id="<{ $item["guid"] }>">
-                <img src="../static/images/starblank.png" class="star" />
                 <{ $item["title"] }>
             </h3>
             <div id="panel" class="panel" style="display:none;">
-                <{ if $item["content"] }>
-                    <{ $item["content"] }>
-                <{ else }>
-                    <{ $item["description"] }>
-                <{ /if }>
+				<div class="content">
+					<{ if $item["content"] }>
+						<{ $item["content"] }>
+					<{ else }>
+						<{ $item["description"] }>
+					<{ /if }>
+				</div>
             </div>
         </div>
     <{ /loop }>
@@ -21,18 +23,27 @@
 </div>
 </div>
 <script type="text/javascript">
-	$("h3.flip").click(function(){
-		$(this).next("div.panel").slideToggle("slow");
-		var $guid = $(this).attr("id");
-		$.post("../comment/", { 
-			guid : $guid 
-		}, function(data, textStatus){
+	$("h3.flip").toggle(
+		function(){
+			$(this).next("div.panel").slideDown("slow");
+			var $guid = $(this).attr("id");
+			$.post("../comment/", { 
+				guid : $guid 
+			}, function(data, textStatus){
+				$("div#rightsidebar").empty();
+				$("div#rightsidebar").append(data);
+			});
+		}, function() {
+			$(this).next("div.panel").slideUp("slow");
 			$("div#rightsidebar").empty();
-			$("div#rightsidebar").append(data);
-		});
 	});
-	$("img.star").click(function(){
-		$(this).attr("src","../static/images/starfull.png");
+	$("img.star").click(
+		function(){
+			if($(this).attr("src")=="../static/images/starblank.png"){
+				$(this).attr("src","../static/images/starfull.png");
+			} else {
+				$(this).attr("src","../static/images/starblank.png");
+			}
 	});
 </script>
 
