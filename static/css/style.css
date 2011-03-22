@@ -3,7 +3,8 @@
 	padding: 0;
 }
 body{
-	font-size:12px;
+	height: 100%;
+	font-size: 12px;
 }
 img{
 	border:none;
@@ -28,12 +29,15 @@ a:hover{
 p{
 	margin: 5px;
 }
-p.remind{
+p.remind,p.message{
 	margin-top: -15px;
 	margin-left: 40px;
 }
-h3{
-	margin: 5px;
+h2,h3{
+	margin: 7px 0 7px 0;
+}
+h2 p{
+	font-size: 150%;
 }
 ul{
 	margin: 5px;
@@ -77,15 +81,16 @@ img.delete{
 	margin-right: 5px;
 }
 img.star{
-        margin-top: 3px;
-        margin-left: 2px;
-	margin-right: 2px;
+	float:left;
+        margin-top: 5px;
 }
 #header{
 	clear:both;
 	height: 55px;
 	background-image:url(images/header.jpg);
 	background-repeat:repeat-x;
+	position:relative;
+	z-index:1;
 }
 #message{
 	clear:both;
@@ -96,6 +101,8 @@ img.star{
 	border-style:solid;
 	border-width:thin;
 	border-bottom-style:none;
+	position:relative;
+	z-index:1;
 }
 #messagetext{
 	clear:both;
@@ -108,6 +115,8 @@ img.star{
 	border-style: solid;
 	border-width: thin;
 	border-bottom-style: none;
+	position:relative;
+	z-index:1;
 }
 #leftsidebar{
 	border-color:black;
@@ -120,6 +129,9 @@ img.star{
 	border-style:solid;
 	border-width:thin;
 	border-top-style:none;
+	overflow: auto;
+	position:relative;
+	z-index:1;
 }
 #main{
 	background-image:url(images/background.png);
@@ -127,6 +139,8 @@ img.star{
 	width: 100%;
 	height: 590px;
 	overflow: auto;
+	position:relative;
+	z-index:1;
 }
 #rightsidebar{
 	border-color:black;
@@ -139,7 +153,9 @@ img.star{
 	border-style:solid;
 	border-width:thin;
 	border-top-style:none;
-	
+	overflow: auto;
+	position:relative;
+	z-index:1;
 }
 #footer{
 	clear: both;
@@ -151,17 +167,29 @@ img.star{
 	text-align:center;
 	color: white;
 }
+#comment{
+	float: left;
+	margin-left: 10px;
+}
+#addComment{
+	float: right;
+	margin-top: 10px;
+	margin-right: 60px;
+}
 .flip
 {
-	margin:0;
-	border-top:1px solid #ccc;
-	padding:5px 8px;
-	clear:both;
+	margin: 7px 0 7px 0;
+	color: black;
+}
+.flip p{
+	font-size: 150%;
+	color: black;
+
 }
 .panel
 {
-	padding:10px 15px;
-	border-top:1px solid #ccc;
+	display:none;
+
 }
 .panel p{
 	padding:8px 0;
@@ -171,26 +199,67 @@ img.star{
 	padding:3px;
 	margin:0 15px 15px 0;
 }
+.panall{
+	display:none;
+
+}
 .useraction ul, .useraction li
 {
-    list-style-type: none;
-    display:inline;
+	list-style-type: none;
+        display:inline;
 	margin-left:5px;
 }
 .useraction a
 {
-    text-decoration: none;
+        text-decoration: none;
 }
 .useraction a:link, .useraction a:visited
 {
-    color:#fff;
+        color:#fff;
 }
 .useraction a:hover
 {
-    color:#00FFFF;
+        color:#00FFFF;
 }
 div.useraction
 {
-    float: right;
-    margin: 5px 10px 0px 0px;
+        float: right;
+        margin: 5px 10px 0px 0px;
+}
+div.feedform{
+        display: none;
+        float: right;
+        height: 120px;
+        width: 240px;
+        position: absolute;
+        z-index: 10;
+        background-image:url(images/back.jpg);
+        background-repeat:repeat;
+        border-color: black;
+        border-style: solid;
+        border-width: 1px;
+        right: 120px;
+}
+input.address{
+        float: left;
+        height: 30px;
+        width: 180px;
+        margin: 25px 10px 10px 10px;
+}
+input.command_s{
+        float: right;
+        height: 25px;
+        width: 80px;
+        margin: 10px 10px 5px 10px;
+}
+input.exit{
+        float: right;
+        height: 15px;
+        width: 15px;
+        margin: 5px 5px 0 0;
+}
+#num{
+        border-bottom-color: black;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
 }

@@ -76,33 +76,40 @@ img.command{
 img.command_1{
 	float:right;
 	margin-top: -30px;
-    margin-right: 40px;
+   	margin-right: 40px;
 }
 img.command_regist{
 	float:right;
 	margin-top: 40px;
-    margin-right: 40px;
+    	margin-right: 40px;
 }
 input.command{
-    float:right;
+	float:right;
 	width:112px;
 	height:34px;
 	margin-top: -35px;
-    margin-right: 40px;
+    	margin-right: 40px;
 
 }
 input.command_1{
 	float:right;
 	width:112px;
 	height:34px;
-	margin-top: -30px;
-    margin-right: 40px;
+	margin-top: -90px;
+    	margin-right: 40px;
+}
+input.command_2{
+	float:right;
+	width:84px;
+	height:27px;
+	margin-top: 20px;
+    	margin-right: 55px;
 }
 input.command_s{
 	float:right;
 	width:112px;
 	height:34px;
-	margin-top: 55px;
+	margin-top: -35px;
         margin-right: 40px;
 }
 img.title{
@@ -156,4 +163,9 @@ div.useraction
 {
     float: right;
     margin: 5px 10px 0px 0px;
+}
+#warn{
+	float: left;
+	margin-top: 20px;
+	margin-left: 80px;
 }
