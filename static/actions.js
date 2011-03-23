@@ -40,11 +40,20 @@ $(document).ready(function(){
 			var $opened = $("div.show");
 			var $comments = $("div#rightsidebar");
 			if ($content.hasClass("show")){
-				$content.slideUp("slow").removeClass("show");
+				$content.removeClass("show").slideUp("fast");
 				$comments.empty().append('<p class="rightitle">评论</p>');
 			} else {
-				$opened.slideUp("slow").removeClass("show");
-				$content.slideDown("slow").addClass("show");
+				if($opened.length > 0){
+					$opened.removeClass("show").slideUp("slow", function(){
+						$content.addClass("show").slideDown("slow", function(){
+							$("div#main").animate({scrollTop: $(this).prev("h3").position().top}, "slow"); 
+						});
+					});
+				} else {
+					$content.addClass("show").slideDown("slow", function(){
+						$("div#main").animate({scrollTop: $(this).prev("h3").position().top}, "slow"); 
+					});
+				}
 				var $guid = $(this).attr("id");
 				$.post("../comment/", { 
 					guid : $guid 
@@ -57,6 +66,10 @@ $(document).ready(function(){
 		$("img.star").click(
 			function(){
 				if($(this).attr("src")=="../static/images/starblank.png"){
+					// TODO:
+					// first change to grey star
+					// then post to change status
+					//     if succeed show light star
 					$(this).attr("src","../static/images/starfull.png");
 				} else {
 					$(this).attr("src","../static/images/starblank.png");
