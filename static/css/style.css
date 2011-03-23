@@ -35,6 +35,7 @@ p.remind,p.message{
 }
 h2,h3{
 	margin: 7px 0 7px 0;
+	padding-left: 20px;
 }
 h2 p{
 	font-size: 150%;
@@ -258,8 +259,17 @@ input.exit{
         width: 15px;
         margin: 5px 5px 0 0;
 }
-#num{
-        border-bottom-color: black;
+.post{
+        border-bottom-color: #e4e4e4;
         border-bottom-style: solid;
         border-bottom-width: 1px;
+}
+h2.flip{
+	border-bottom: 1px solid #e4e4e4;
+}
+div.comment{
+	padding-top: 5px;
+}
+.comment p{
+	padding-left:10px;
 }

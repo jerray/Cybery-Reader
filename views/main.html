@@ -7,52 +7,9 @@
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 
 		<script type="text/javascript" src="../static/jquery.js"></script>
+		<script type="text/javascript" src="../static/actions.js"></script>
 		<link rel="stylesheet" href="../static/css/style.css" type="text/css" />
-		<script type="text/javascript">
-			$(document).ready(function(){
-				$("h2.flip").click(function(){
-					$("#panall").slideToggle("slow");
-				});
-				$("img.feed").toggle(function(){
-						$(this).attr("src","../static/images/butplus.gif");
-						$(this).next("ul").slideUp("slow");
-					}, function(){
-						$(this).attr("src", "../static/images/butsub.gif");
-						$(this).next("ul").slideDown("slow");
-					}
-				);
-				$("p.remind").click(function(){
-					$("#message").hide();
-					$("#messagetext").show();
-				});
-				$("img.delete").click(function(){
-					$("#message").hide();
-					$("#messagetext").hide();
-				});
-				$(".choose a").click(function(){
-					var $link = $(this).attr("href");
-					$("#main").empty();
-					$("#main").append("<div class=\"loading_posts\">正在加载文章，请稍候....</div>");
-					$.post("../post/", {
-						url : $link
-					}, function(data, textStatus){
-						$("#main").empty();
-						$("#main").append(data);
-					});
-					return false;
-				});
-				$("#newfeed").click(function(){
-					$(".feedform").show();
-				});
-				$("input.exit").click(function(){
-					$(".feedform").hide();
-					return false;
-				});
-				$("input.command_s").click(function(){
-					$(".feedform").hide();
-				});
-			});
-		</script>
+
 		<{include ('ga.html')}>
 	</head>
 
