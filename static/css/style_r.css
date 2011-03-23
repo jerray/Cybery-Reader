@@ -95,7 +95,7 @@ input.command_1{
 	float:right;
 	width:112px;
 	height:34px;
-	margin-top: -90px;
+//	margin-top: -90px;
     	margin-right: 40px;
 }
 input.command_2{
@@ -112,6 +112,11 @@ input.command_s{
 	margin-top: -35px;
         margin-right: 40px;
 }
+
+#table_login{
+	float:left;
+}
+
 img.title{
 	clear:both;
 	margin: 10px;

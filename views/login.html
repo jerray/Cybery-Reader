@@ -39,14 +39,28 @@
 		
 		<div id="context">
 			<img src="../static/images/logintitle.png" class="title" />
-			<a href="../regist/step1/"><img src="../static/images/register.png" class="command_regist" /></a>
 			<form action="" method="POST" >
-				<input class="name" type="text" name="username" value="请输入您的用户名"  onMouseOver="this.focus()" onMouseOut="if(this.value=='')this.value='请输入您的用户名';" onFocus="this.select()" onClick="if(this.value=='请输入您的用户名')this.value=''">
-				<input class="password" type="password" name="password" value="请输入您的密码"  onMouseOver="this.focus()" onMouseOut="if(this.value=='')this.value='请输入您的密码';" onFocus="this.select()" onClick="if(this.value=='请输入您的密码')this.value=''">
-				<input type="image" src="../static/images/login.png" class="command_1" />
+				<table id="table_login">
+				<tr>
+					<td>
+						<input class="name" type="text" name="username" value="请输入您的用户名"  onMouseOver="this.focus()" onMouseOut="if(this.value=='')this.value='请输入您的用户名';" onFocus="this.select()" onClick="if(this.value=='请输入您的用户名')this.value=''">
+					</td>
+					<td>
+						<a href="../regist/step1/"><img src="../static/images/register.png" class="command_regist" /></a>	
+					</td>
+
+				</tr>
+				<tr>
+					<td>
+						<input class="password" type="password" name="password" value="请输入您的密码"  onMouseOver="this.focus()" onMouseOut="if(this.value=='')this.value='请输入您的密码';" onFocus="this.select()" onClick="if(this.value=='请输入您的密码')this.value=''">
+					</td>
+					<td>
+						<input type="image" src="../static/images/login.png" class="command_1" />
+					</td>
+				</tr>
+				</table>
 			</form>
-			
-			
+		
 		</div>
 
 	</body>
