@@ -1,11 +1,15 @@
-<div id="posts">	
+<div id="posts" class="<{ $feedurl }>">	
 <h2 class="flip"><p><{ $feedname }></p></h2>
 <div id="panall">
 <{ if $isitem }>
     <{ loop $items $item }>
         <div class="post">
-			<img src="../static/images/starblank.png" class="star" />
-            <h3 class="flip" id="<{ $item["guid"] }>">
+            <{ if $item["fav"] }>
+			    <img src="../static/images/starfull.png" class="star" />
+            <{ else }>
+			    <img src="../static/images/starblank.png" class="star" />
+            <{ /if }>
+            <h3 class="flip <{ if !$item["read"] }>unread<{ /if }>" id="<{ $item["guid"] }>">
                 <{ $item["title"] }>
             </h3>
             <div class="panel" style="display:none;">

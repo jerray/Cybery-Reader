@@ -52,7 +52,7 @@
 		    <ul class="feed">
 		    <{ if $ismyfeed }>
 		    <{ loop $myfeed $row }>
-		    <li class="choose"><a href="<{ $row["url"] }>"><{ $row["title"] }><{ if $row["unread"] }>(<{ $row["unread"] }>)<{ /if }></a></li>
+		    <li class="choose"><a href="<{ $row["url"] }>"><{ $row["title"] }><{ if $row["unread"] }>(<span id="unreadnum-<{ $row["url"] }>"><{ $row["unread"] }></span>)<{ /if }></a></li>
 		    <{ /loop }>
 		    <{ /if }>
          	</ul>

@@ -33,6 +33,10 @@ $routes = array(
 		'Subscribe',
 		ACTIONS_ROOT . 'subscribe.class.php',
 	),
+	'/^item\/action\/$/' => array(
+		'ItemAction',
+		ACTIONS_ROOT . 'item_action.class.php',
+	),
 	'/^home\/(.*)/' => array(
 		'Home',
 		ACTIONS_ROOT . 'main.class.php',

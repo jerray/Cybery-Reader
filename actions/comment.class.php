@@ -34,8 +34,10 @@ class Comment extends Action
 		
 		if(isset($_POST['guid']))
 		{
-		    $guid = $_POST['guid'];
-            $r = $db->fetch('items', 'guid', $guid);
+            $guid = $_POST['guid'];
+            $fid = $_SESSION['user']['fid'];
+            $r = $db->get('items', "`guid`='$guid' AND `fid`=$fid");
+            $r = $r[0];
             $iid = $r['id'];
 			$_SESSION['user']['iid'] = $iid;
             $this->PageData['ctitle'] .= ' :: '.$r['title'];

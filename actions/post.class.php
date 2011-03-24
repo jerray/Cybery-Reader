@@ -38,6 +38,7 @@ class Post extends Action
             if ($result)
             {
                 $fid = $result['id'];
+                $_SESSION['user']['fid'] = $fid;
                 $this->PageData['feedname'] = $result['title'];
                 $this->feedManager->select_feed($fid);
                 $this->PageData['items'] = $this->feedManager->get_items();
@@ -45,6 +46,7 @@ class Post extends Action
                 {
                     $this->PageData['isitem'] = TRUE;
                 }
+				$this->PageData['feedurl'] = $url;
             }
 		}
 		$tpl->render('post.html', $this->PageData);

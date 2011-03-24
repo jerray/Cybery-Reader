@@ -61,19 +61,46 @@ $(document).ready(function(){
 					$comments.empty().append(data);
 					commentsAction();
 				});
+                if($(this).hasClass("unread")){
+                    var $title = $(this);
+                    var isread = true;
+                    $.post("../item/action/", {
+                        guid : $guid,
+                        read : isread
+                    }, function(data, textStatus){
+                        $title.removeClass("unread");
+                        var feedurl = $("#posts").attr("class");
+                        var feedspanid = 'unreadnum-'+feedurl;
+                        var $unreadnum = $("span[id="+feedspanid+"]");
+                        var num = $unreadnum.text();
+                        num = Number(num);
+                        num = num - 1;
+                        num = String(num);
+                        $unreadnum.text(num);
+                    });
+                }
 			}
 		});
-		$("img.star").click(
-			function(){
-				if($(this).attr("src")=="../static/images/starblank.png"){
-					// TODO:
-					// first change to grey star
-					// then post to change status
-					//     if succeed show light star
-					$(this).attr("src","../static/images/starfull.png");
-				} else {
-					$(this).attr("src","../static/images/starblank.png");
-				}
+		$("img.star").click(function(){
+            var $guid = $(this).next("h3").attr("id");
+            var $star = $(this);
+			if($(this).attr("src")=="../static/images/starblank.png"){
+                var isfav = true;
+                $.post("../item/action/", {
+                    guid : $guid,
+                    fav : isfav
+                }, function(data, textStatus){
+			        $star.attr("src","../static/images/starfull.png");
+                })
+			} else {
+                var isfav = false;
+                $.post("../item/action/", {
+                    guid : $guid,
+                    fav : isfav
+                }, function(data, textStatus){
+			        $star.attr("src","../static/images/starblank.png");
+                })
+			}
 		});
 	}
 	$(".choose a").click(function(){
