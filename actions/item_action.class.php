@@ -33,13 +33,11 @@ class Item_Action extends Action
             $guid = $_POST['guid'];
             $isfav = $_POST['fav'];
             $r = $db->get('items', "`guid`='$guid' AND `fid`=$fid");
-            print_r($r);
             $r = $r[0];
             $iid = $r['id'];
             $attr = $this->get_attr($iid);
             $attr['fav'] = (bool)$isfav;
             $this->feedManager->item_action($attr);
-            echo "fid=", $fid, " iid=", $iid;
         }
     }
 

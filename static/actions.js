@@ -63,7 +63,7 @@ $(document).ready(function(){
 				});
                 if($(this).hasClass("unread")){
                     var $title = $(this);
-                    var isread = true;
+                    var isread = 1;
                     $.post("../item/action/", {
                         guid : $guid,
                         read : isread
@@ -85,7 +85,7 @@ $(document).ready(function(){
             var $guid = $(this).next("h3").attr("id");
             var $star = $(this);
 			if($(this).attr("src")=="../static/images/starblank.png"){
-                var isfav = true;
+                var isfav = 1;
                 $.post("../item/action/", {
                     guid : $guid,
                     fav : isfav
@@ -93,7 +93,7 @@ $(document).ready(function(){
 			        $star.attr("src","../static/images/starfull.png");
                 })
 			} else {
-                var isfav = false;
+                var isfav = 0;
                 $.post("../item/action/", {
                     guid : $guid,
                     fav : isfav
