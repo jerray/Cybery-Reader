@@ -61,6 +61,9 @@ img.delete{
 	height: 251px;
 	background-image:url(images/frame.png);
 }
+#table_step2{
+	float:left;
+}
 img.step{
 	margin-top: 25px;
 	margin-bottom: 10px;

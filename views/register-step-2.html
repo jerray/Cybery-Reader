@@ -41,22 +41,32 @@
 	</div>
 	<{/if}>
 	<div id="context">
-			<img src="../../static/images/step_2.png" class="step" />
-			<form method="post">
-			<div>
-				<input id="username" class="name" type="text" name="username" value="请输入您的用户名"  onMouseOver="this.focus()" onMouseOut="if(this.value=='')this.value='请输入您的用户名';" onFocus="this.select()" onClick="if(this.value=='请输入您的用户名')this.value=''">
-			</div>
-			<div>
-				<input id="password" class="password" type="text" name="password" value="请输入您的密码"  onMouseOver="this.focus()" onMouseOut="if(this.value=='')this.value='请输入您的密码';" onFocus="this.select()" onClick="if(this.value=='请输入您的密码')this.value=''">
-			</div>
-			<div>
-				<input id="password2" class="password" type="text" name="password2" value="请确认您的密码"  onMouseOver="this.focus()" onMouseOut="if(this.value=='')this.value='请确认您的密码';" onFocus="this.select()" onClick="if(this.value=='请确认您的密码')this.value=''">
-			</div>
-			<!--添加提交按钮-->
-			<input type="image" name = "step2" src="../../static/images/next.png" class = "command_1"/>
-			<!--添加结束-->
-			</form>
-	</div>
+		<img src="../../static/images/step_2.png" class="step" />
+		<form method="post">
+		<table id="table_step2">
+			<tr>
+				<td>
+					<input id="username" class="name" type="text" name="username" value="请输入您的用户名"  onMouseOver="this.focus()" onMouseOut="if(this.value=='')this.value='请输入您的用户名';" onFocus="this.select()" onClick="if(this.value=='请输入您的用户名')this.value=''">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input id="password" class="password" type="text" name="password" value="请输入您的密码"  onMouseOver="this.focus()" onMouseOut="if(this.value=='')this.value='请输入您的密码';" onFocus="this.select()" onClick="if(this.value=='请输入您的密码')this.value=''">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input id="password2" class="password" type="text" name="password2" value="请确认您的密码"  onMouseOver="this.focus()" onMouseOut="if(this.value=='')this.value='请确认您的密码';" onFocus="this.select()" onClick="if(this.value=='请确认您的密码')this.value=''">
+				</td>
+				<td>
+					<!--添加提交按钮-->
+					<input type="image" name = "step2" src="../../static/images/next.png" class = "command_1"/>
+					<!--添加结束-->
+				</td>
+			</tr>
+		</table>
+		</form>
+</div>
 </body>
 
 <script type="text/javascript">
@@ -71,29 +81,29 @@
 		if($(this).is('#username')) {
 		if(this.value=="" || this.value.length < 4){
 			var errorMsg = '输入至少4位用户名.';
-			$parent.append('<span class="formtips onError">'+errorMsg+'</span>');
+			$parent.append('<span class="formtips onError">'+errorMsg+'</span>').css("color", "red");
 			}else{
 				var okMsg='输入正确，请继续.';
-				$parent.append('<span class="formtips onSuccess">'+okMsg+'</span>');
+				$parent.append('<span class="formtips onSuccess">'+okMsg+'</span>').css("color", "green");
 			}
 		}
 
 		if($(this).is('#password')) {		
 			if(this.value=="" || this.value.length < 1){
 				var errorMsg = '密码不能为空.';
-					$parent.append('<span class="formtips onError">'+errorMsg+'</span>');
+					$parent.append('<span class="formtips onError">'+errorMsg+'</span>').css("color", "red");
 				}else{
 					var okMsg='输入正确，请继续.';
-					$parent.append('<span class="formtips onSuccess">'+okMsg+'</span>');
-				}
+					$parent.append('<span class="formtips onSuccess">'+okMsg+'</span>').css("color", "green");
+				}	
 			}	
 		if($(this).is('#password2')) {	
 			if(this.value == "" || $(this).val() != $("#password").val()){		//恩 对，就是这么判断
 				var errorMsg = '密码不能为空或不匹配.';
-				$parent.append('<span class="formtips onError">'+errorMsg+'</span>');
+				$parent.append('<span class="formtips onError">'+errorMsg+'</span>').css("color", "red");
 			}else{
 				var okMsg='输入正确，请继续';
-				$parent.append('<span class="formtips onSuccess">'+okMsg+'</span>');
+				$parent.append('<span class="formtips onSuccess">'+okMsg+'</span>').css("color", "green");
 			}
 		}
 	})
