@@ -1,4 +1,16 @@
 $(document).ready(function(){
+    var $msgtext = $("p.message");
+    var $msgdiv = $("#messagetext");
+    function showMessage(){
+        $msgdiv.slideDown(200);
+    }
+    function hideMessage(){
+        $msgdiv.slideUp(200);
+    }
+    function setMessage(data){
+        $msgtext.empty();
+        $msgtext.append(data);
+    }
 	$("img.feed").toggle(function(){
 		$(this).attr("src","../static/images/butplus.gif");
 		$(this).next("ul").slideUp("slow");
@@ -9,11 +21,11 @@ $(document).ready(function(){
 	);
 	$("p.remind").click(function(){
 		$("#message").hide();
-		$("#messagetext").show();
+        showMessage();
 	});
 	$("img.delete").click(function(){
-		$("#message").hide();
-		$("#messagetext").hide();
+		$("#message").slideUp(200);
+        hideMessage();
 	});
 	function commentsAction(){
 		$("input#addComment").click(function(){
@@ -125,31 +137,49 @@ $(document).ready(function(){
 		$(".feedform").hide();
 		return false;
 	});
-    function AddFeed(){
+    function AddFeedUrl(){
+        $(".rssurl").click(function(){
+            AddFeed('link');
+            return false;
+        });
+    }
+    function AddFeed(source){
         var mainPage = 1;
-        var url = $("input.address").val();
+        if (source == 'bar'){
+            var url = $("input.address").val();
+        } else if (source == 'link'){
+            var url = $(".rssurl").attr('href');
+        } else {
+            var url = '';
+        }
+        hideMessage();
+        setMessage('正在处理数据，请稍候...');
+        showMessage();
         $.post("../subscribe/", {
             main : mainPage,
             address : url
         }, function(data, textStatus){
             if(data == 'FALSE'){
-                $("p.message").text('无法识别的地址或您已订阅该Feed');
-                $("#messagetext").slideDown(200);
+                setMessage('无法识别的地址，或您已订阅该Feed');
+                showMessage();
             } else if (data == 'OK'){
                 $.post("../feedlist/", function(data, textStatus){
                     $("#leftsidebar").empty();
                     $("#leftsidebar").append(data);
                     FeedList();
                     $("input.address").attr("value", "");
+                    setMessage('成功订阅：'+url);
+                    showMessage();
                 });
             } else {
-                $("p.message").text(data);
-                $("#messagetext").slideDown(200);
+                setMessage(data);
+                showMessage();
+                AddFeedUrl();
             }
         });
     }
 	$("input.command_s").click(function(){
-        AddFeed();
+        AddFeed('bar');
 		$(".feedform").hide();
         return false;
 	});

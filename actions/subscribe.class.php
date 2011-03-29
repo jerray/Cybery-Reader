@@ -53,7 +53,7 @@ class Subscribe extends Action
                 $RSSMessage = '';
                 foreach($rss as $value)
                 {
-                    $RSSMessage .= '['.$value['title'].' | '.$value['url'].']';
+                    $RSSMessage .= '[<a href="'.$value['url'].'" class="rssurl">'.$value['title'].'</a>]';
                 }
                 echo '您提交了一个含有RSS Feed的站点，请选择一个地址然后重新提交：'.$RSSMessage;
             }
