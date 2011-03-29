@@ -16,7 +16,7 @@
 	<body>
 	
 	<div class="feedform">
-		<form class="feedform">
+		<form action="../subscribe/" method="POST" class="feedform">
 			<input class="address" type="text" name="address" value="请输入您的地址"  onMouseOver="this.focus()" onMouseOut="if(this.value=='')this.value='请输入您的地址';" onFocus="this.select()" onClick="if(this.value=='请输入您的地址')this.value=''">
 			<input type="image" value="" class="exit" src="../static/images/exit.gif" />
 			<input type="image" value="" class="command_s" src="../static/images/subscribe.png" />
@@ -33,15 +33,13 @@
 		<img src="../static/images/logo.png" class="logo" />
 		<img src="../static/images/see.png" class="logonote"/>
 	</div>
-    <{ if $ismsg}>
-	<div id="message">
+	<div id="message" <{ if $ismsg == false }>style="display: none;"<{ /if }>>
 		<img src="../static/images/butexit.gif" class="delete" /><p class="remind"><{ $msg }></p>
 	</div>
 
-	<div id="messagetext">
+	<div id="messagetext" <{ if $ismsg == false }>style="display: none;"<{ /if }>>
 		<img src="../static/images/butexit.gif" class="delete" /><p class="message"><{ $msg }></p>
 	</div>
-    <{ /if }>
 
 	<div id="context">
 

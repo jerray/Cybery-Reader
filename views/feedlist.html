@@ -1,0 +1,21 @@
+<ul>
+    <li><img src="../static/images/butsub.gif" class="feed" />我的Feed
+		<ul class="feed">
+		    <{ if $ismyfeed }>
+		    <{ loop $myfeed $row }>
+		    <li class="choose"><a href="<{ $row["url"] }>"><{ $row["title"] }><{ if $row["unread"] }>(<span id="unreadnum-<{ $row["url"] }>"><{ $row["unread"] }></span>)<{ /if }></a></li>
+		    <{ /loop }>
+		    <{ /if }>
+        </ul>
+	</li> 
+
+	<li><img src="../static/images/butsub.gif" class="feed" />热门Feed
+		<ul class="feed">
+		    <{ if $isfavfeed }>
+		    <{ loop $favfeed $row }>
+		    <li class="choose"><a href="<{ $row["url"] }>"><{ $row["title"] }></a></li>
+		    <{ /loop }>
+		    <{ /if }>
+        </ul>
+	</li>
+</ul>

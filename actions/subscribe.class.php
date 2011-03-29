@@ -3,6 +3,10 @@
 class Subscribe extends Action
 {
     private $PageData;
+    private $feedManager;
+    private $uid;
+    private $url = NULL;
+    private $mainPage = false;
     
     private function setMessage( $message )
     {
@@ -19,22 +23,54 @@ class Subscribe extends Action
             'msg' => NULL,
 			'onload' => '',
         );
-        
+
         if (!isset($_SESSION['user']) || !isset($_SESSION['user']['group']) || $_SESSION['user']['group'] == 0)
         {
 		    header('location:../login/?user=false');
 		}
+
+        $this->uid = $_SESSION['user']['id'];
+        $this->feedManager = new FeedManager($this->uid);
+
+        if (isset($_POST['main']) && $_POST['main']==1)
+        {
+            $this->mainPage = true;
+        }
 		    
         if (isset($_POST['address']))
         {
-            $url = trim($_POST['address']);
-            $uid = $_SESSION['user']['id'];
-            $feedManager = new FeedManager($uid);
-            if ($feedManager->add_feed($url))
+            $this->url = trim($_POST['address']);
+        }
+
+        if ($this->mainPage)
+        {
+            if ($this->feedManager->add_feed($this->url))
             {
-				$this->PageData['onload'] = 'onload="window.opener.location.href=\'../home/?addr='.$url.'\';window.close()"';
+                echo 'OK';
             }
-            elseif ($rss = $feedManager->find_feed($url))
+            elseif ($rss = $this->feedManager->find_feed($this->url))
+            {
+                $RSSMessage = '';
+                foreach($rss as $value)
+                {
+                    $RSSMessage .= '['.$value['title'].' | '.$value['url'].']';
+                }
+                echo '您提交了一个含有RSS Feed的站点，请选择一个地址然后重新提交：'.$RSSMessage;
+            }
+            else
+            {
+                echo 'FALSE';
+            }
+
+            return;
+        }
+        else if ($this->url)
+        {
+            if ($this->feedManager->add_feed($this->url))
+            {
+                header('location:../home/?addr='.$this->url);
+            }
+            elseif ($rss = $this->feedManager->find_feed($this->url))
             {
                 $RSSMessage = '';
                 foreach($rss as $value)
@@ -50,6 +86,7 @@ class Subscribe extends Action
         }
 
         $tpl->render('subscribe.html', $this->PageData);
+
     }
 };
 

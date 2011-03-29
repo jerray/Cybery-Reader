@@ -103,18 +103,21 @@ $(document).ready(function(){
 			}
 		});
 	}
-	$(".choose a").click(function(){
-		var $link = $(this).attr("href");
-		$("#main").empty().append("<div class=\"loading_posts\">正在加载文章，请稍候....</div>");
-		$("div#rightsidebar").empty().append('<p class="rightitle">评论</p>');
-		$.post("../post/", {
-			url : $link
-		}, function(data, textStatus){
-			$("#main").empty().append(data);
-			postsAction();
-		});
-		return false;
-	});
+    function FeedList(){
+	    $(".choose a").click(function(){
+		    var $link = $(this).attr("href");
+		    $("#main").empty().append("<div class=\"loading_posts\">正在加载文章，请稍候....</div>");
+		    $("div#rightsidebar").empty().append('<p class="rightitle">评论</p>');
+		    $.post("../post/", {
+			    url : $link
+		    }, function(data, textStatus){
+			    $("#main").empty().append(data);
+			    postsAction();
+		    });
+		    return false;
+	    });
+    }
+    FeedList();
 	$("#newfeed").click(function(){
 		$(".feedform").show();
 	});
@@ -122,7 +125,32 @@ $(document).ready(function(){
 		$(".feedform").hide();
 		return false;
 	});
+    function AddFeed(){
+        var mainPage = 1;
+        var url = $("input.address").val();
+        $.post("../subscribe/", {
+            main : mainPage,
+            address : url
+        }, function(data, textStatus){
+            if(data == 'FALSE'){
+                $("p.message").text('无法识别的地址或您已订阅该Feed');
+                $("#messagetext").slideDown(200);
+            } else if (data == 'OK'){
+                $.post("../feedlist/", function(data, textStatus){
+                    $("#leftsidebar").empty();
+                    $("#leftsidebar").append(data);
+                    FeedList();
+                    $("input.address").attr("value", "");
+                });
+            } else {
+                $("p.message").text(data);
+                $("#messagetext").slideDown(200);
+            }
+        });
+    }
 	$("input.command_s").click(function(){
+        AddFeed();
 		$(".feedform").hide();
+        return false;
 	});
 });

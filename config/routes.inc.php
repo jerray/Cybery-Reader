@@ -49,6 +49,10 @@ $routes = array(
 		'Comment',
 		ACTIONS_ROOT . 'comment.class.php',
 	),
+	'/^feedlist\/(.*)/' => array(
+		'FeedList',
+		ACTIONS_ROOT . 'feedlist.class.php',
+	),
 	'/^login\/(.*)/' => array(
 		'Login',
 		ACTIONS_ROOT . 'login.class.php',
