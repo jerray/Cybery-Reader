@@ -11,14 +11,17 @@ $(document).ready(function(){
         $msgtext.empty();
         $msgtext.append(data);
     }
-	$("img.feed").toggle(function(){
-		$(this).attr("src","../static/images/butplus.gif");
-		$(this).next("ul").slideUp("slow");
-		}, function(){
-			$(this).attr("src", "../static/images/butsub.gif");
-			$(this).next("ul").slideDown("slow");
-		}
-	);
+    function FeedListSlide(){
+	    $("img.feed").toggle(function(){
+	    	$(this).attr("src","../static/images/butplus.gif");
+		    $(this).next("ul").slideUp("slow");
+		    }, function(){
+			    $(this).attr("src", "../static/images/butsub.gif");
+			    $(this).next("ul").slideDown("slow");
+		    }
+	    );
+    }
+    FeedListSlide();
 	$("p.remind").click(function(){
 		$("#message").hide();
         showMessage();
@@ -167,6 +170,7 @@ $(document).ready(function(){
                     $("#leftsidebar").empty();
                     $("#leftsidebar").append(data);
                     FeedList();
+                    FeedListSlide();
                     $("input.address").attr("value", "");
                     setMessage('成功订阅：'+url);
                     showMessage();
